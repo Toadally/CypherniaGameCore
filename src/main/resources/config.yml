@@ -9,12 +9,6 @@ messages:
 
    playerCount: "&e%playercount% &fplayers remaining" #This setting is enabled or disabled on a per game basis. This message will be added at the end of every kill or death if enabled.
 
-   killMessage:
-     - "&a%player% &fkilled &a%victim%&f."
-     - "&a%player% &fsent &a%victim%&f to their doom."
-   deathMessage:
-     - "&a%player% &fsomehow died."
-     - "&a%player% &fdied."
    coingain: "&e&l+%coins% coins"
    countdown: "&fGame starting in &a%time% &fseconds." #Will display at 20s, 10s, 5s, 4s, 3s, 2s, and 1s."
 
@@ -28,6 +22,9 @@ spawnLocation:
    yaw: 0;
    pitch: 0;
    world: world
+
+items:
+   kitselector: nether_star 1 0 name:&bKit_Selector protection:1
 
 mysql:
   host: localhost
