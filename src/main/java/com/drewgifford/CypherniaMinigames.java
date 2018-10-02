@@ -63,6 +63,10 @@ public class CypherniaMinigames extends JavaPlugin {
     }
 
 
+    public CypherniaMinigames getThis(){
+        return this;
+    }
+
     public void openPlayerJoins(){
         allowJoins = true;
     }
@@ -77,7 +81,7 @@ public class CypherniaMinigames extends JavaPlugin {
         registeredGame.runPreEvents();
     }
 
-    public void loadConfig(){
+    private void loadConfig(){
         getConfig().options().copyDefaults(true);
         saveConfig();
 

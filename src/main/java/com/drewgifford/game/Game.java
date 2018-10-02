@@ -7,9 +7,7 @@ public class Game {
 
     private String name;
     CypherniaMinigames pl;
-    public Game(String name, CypherniaMinigames pl){
-        this.name = name;
-    }
+
 
     public String getName(){
         return this.name;
