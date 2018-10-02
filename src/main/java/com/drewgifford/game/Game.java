@@ -8,6 +8,11 @@ public class Game {
     private String name;
     CypherniaMinigames pl;
 
+    public Game(String name, CypherniaMinigames pl){
+        this.name = name;
+        this.pl = pl;
+    }
+
 
     public String getName(){
         return this.name;

@@ -32,7 +32,7 @@ public class EventJoin implements Listener {
 
 
         if(plugin.ingame == false){
-            p.teleport(plugin.spawnLoc);
+            //p.teleport(plugin.spawnLoc);
             plugin.gm.lobbyCheck();
         }
 

@@ -83,9 +83,8 @@ public class GameManager {
                 if(lobbyCountdown == 20 || lobbyCountdown == 10 || lobbyCountdown < 6 && lobbyCountdown > 0){
                     for(Player p : Bukkit.getOnlinePlayers()){
                         p.playSound(p.getLocation(), Sound.CLICK, 1f, 2f);
-
+                        p.sendMessage(pl.color(pl.countdownMsg.replaceAll("%time%", ""+lobbyCountdown)));
                     }
-                    pl.broadcast(pl.countdownMsg.replaceAll("%time%", ""+lobbyCountdown));
                 }
 
                 if(lobbyCountdown == 0){

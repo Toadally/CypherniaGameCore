@@ -55,6 +55,7 @@ public class CypherniaMinigames extends JavaPlugin {
     public void onEnable(){
         log.info("Cyphernia Game Core enabled.");
         loadConfig();
+        parseConfig();
     }
 
     public void onDisable(){
@@ -112,7 +113,7 @@ public class CypherniaMinigames extends JavaPlugin {
         } catch(Exception e) {
             log.info("ERROR: Could not connect to MySQL Database. Is the information entered in correctly?");
             e.printStackTrace();
-            getServer().getPluginManager().disablePlugin(this);
+            //getServer().getPluginManager().disablePlugin(this);
         }
 
 
@@ -137,7 +138,7 @@ public class CypherniaMinigames extends JavaPlugin {
 
 
     // General functions
-    private String color(String s){
+    public String color(String s){
         return ChatColor.translateAlternateColorCodes('&',s);
     }
     public void broadcast(String msg){
