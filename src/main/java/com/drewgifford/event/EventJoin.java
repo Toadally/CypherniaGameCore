@@ -11,8 +11,11 @@ import java.util.UUID;
 
 public class EventJoin implements Listener {
 
-    CypherniaMinigames plugin = CypherniaMinigames.getPlugin(CypherniaMinigames.class);
+    CypherniaMinigames plugin;
 
+    public EventJoin(CypherniaMinigames plugin){
+        this.plugin = plugin;
+    }
 
     @EventHandler
     public void onJoin(PlayerJoinEvent e){

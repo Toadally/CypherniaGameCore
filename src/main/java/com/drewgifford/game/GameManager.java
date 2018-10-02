@@ -15,7 +15,11 @@ import java.util.Random;
 
 public class GameManager {
 
-    private CypherniaMinigames pl = CypherniaMinigames.getPlugin(CypherniaMinigames.class);
+    CypherniaMinigames pl;
+
+    public GameManager(CypherniaMinigames pl){
+        this.pl = pl;
+    }
 
     private int lobbyCountdown = 20;
     private Integer taskId;

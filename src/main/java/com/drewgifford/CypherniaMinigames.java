@@ -47,7 +47,7 @@ public class CypherniaMinigames extends JavaPlugin {
 
     public Game registeredGame;
 
-    public GameManager gm = new GameManager();
+    public GameManager gm = new GameManager(this);
 
 
     public String gameId = "";
