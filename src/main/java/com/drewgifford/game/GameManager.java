@@ -1,16 +1,15 @@
 package com.drewgifford.game;
 
 import com.drewgifford.CypherniaMinigames;
-import org.bukkit.Bukkit;
-import org.bukkit.Color;
-import org.bukkit.FireworkEffect;
-import org.bukkit.Sound;
+import org.bukkit.*;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.HashMap;
 import java.util.Random;
 
 public class GameManager {
@@ -26,7 +25,42 @@ public class GameManager {
     private boolean cancel;
     private String cancelMsg;
 
+    public boolean spectatorEnabled = true;
+
+    public void setSpectatorEnabled(boolean b){
+        this.spectatorEnabled = b;
+    }
+
+    public void endgameCheck(){
+        int trues = 0;
+        Player winner = null;
+        for(Player p : ingamePlayers.keySet()){
+            if(isInGame(p)) {
+                trues++;
+                winner = p;
+            }
+        }
+        if(trues == 1){
+            if(winner != null) {
+                finishGame(winner);
+            }
+        }
+    }
+
     public boolean countdownStarted = false;
+
+    private HashMap<Player, Boolean> ingamePlayers = new HashMap<Player, Boolean>();
+    public boolean isInGame(Player p){
+        return ingamePlayers.get(p);
+    }
+    public void setIngame(Player p, boolean d){
+        unregisterPlayer(p);
+        ingamePlayers.put(p, d);
+    }
+    public void unregisterPlayer(Player p ){
+        ingamePlayers.remove(p);
+    }
+
 
     public void lobbyCheck(){
 
@@ -89,8 +123,7 @@ public class GameManager {
 
                 if(lobbyCountdown == 0){
                     for(Player p : Bukkit.getOnlinePlayers()){
-                        p.setLevel(0);
-
+                        setIngame(p, true);
                     }
                     startGame(pl.registeredGame);
                     this.cancel();
@@ -110,6 +143,11 @@ public class GameManager {
 
         game.startGame();
 
+    }
+
+    public void setSpectator(Player p ){
+        p.setFlying(true);
+        p.setGameMode(GameMode.SPECTATOR);
     }
 
     int fireworkCt = 10;
@@ -232,6 +270,19 @@ public class GameManager {
         }
 
         return c;
+    }
+
+    public void spreadPlayers(int minDistance, int maxRange){
+        int x = 0;  // Marks the x coord of the centre of your map.
+        int z = 0;  // Marks the y coord of the centre of your map.
+        //int minDistance = 250;  // The minimum distance between players / teams.
+        //int maxRange = 1500;  // The maximum range (applies to x and z coordinates.
+        boolean respectTeams = true;  // Whether players in teams should be teleported to the same location (if applicable).
+        String players = "@a";  // Here you specify a list of player names separated by spaces, or use commandblock specifiers.
+
+        ConsoleCommandSender console = Bukkit.getServer().getConsoleSender();
+        Bukkit.getServer().dispatchCommand(console, String.format("spreadplayers %d %d %d %d %b %s", x, z, minDistance, maxRange, respectTeams, players));
+
     }
 
 }

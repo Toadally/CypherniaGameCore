@@ -21,14 +21,17 @@ public class EventJoin implements Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent e){
 
+
         if(plugin.allowJoins = false){
 
             e.getPlayer().kickPlayer("The server is still initiating. Join back in a few seconds");
             e.setJoinMessage("The server is still initiating. Join back in a few seconds");
+            return;
 
         }
         Player p = e.getPlayer();
         UUID uuid = p.getUniqueId();
+        plugin.getGameManager().setIngame(p, false);
 
         plugin.playermanager.put(uuid, new PlayerManager(uuid, false, false, 0, 0));
 

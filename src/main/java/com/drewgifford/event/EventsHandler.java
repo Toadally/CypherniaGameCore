@@ -10,6 +10,8 @@ public class EventsHandler {
         PluginManager pm = plugin.getServer().getPluginManager();
 
         pm.registerEvents(new EventJoin(plugin), plugin);
+        pm.registerEvents(new EventLeave(plugin), plugin);
+        pm.registerEvents(new EventDamage(plugin), plugin);
 
     }
 }
