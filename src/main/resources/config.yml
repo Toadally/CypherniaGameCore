@@ -1,0 +1,37 @@
+messages:
+   # Placeholders:
+   # %player%: main player or killer
+   # %victim%: victim of the attack
+   # %playercount%: number of players still alive
+   # %time%: Time remaining countdown
+   # %coins%: Coins earned whenever gaining coins
+   # Per game messages will be handled inside the config file for that game.
+
+   playerCount: "&e%playercount% &fplayers remaining" #This setting is enabled or disabled on a per game basis. This message will be added at the end of every kill or death if enabled.
+
+   killMessage:
+     - "&a%player% &fkilled &a%victim%&f."
+     - "&a%player% &fsent &a%victim%&f to their doom."
+   deathMessage:
+     - "&a%player% &fsomehow died."
+     - "&a%player% &fdied."
+   coingain: "&e&l+%coins% coins"
+   countdown: "&fGame starting in &a%time% &fseconds." #Will display at 20s, 10s, 5s, 4s, 3s, 2s, and 1s."
+
+   lobby:
+     notEnoughPlayers: "&cNot enough players are online to start the game. The countdown timer has been cancelled."
+
+spawnLocation:
+   x: 0
+   y: 128
+   z: 0
+   yaw: 0;
+   pitch: 0;
+   world: world
+
+mysql:
+  host: localhost
+  port: 3306
+  database: db
+  username: admin
+  password: admin
