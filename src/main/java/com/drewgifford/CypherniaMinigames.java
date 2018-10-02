@@ -10,9 +10,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.inventivetalent.bossbar.BossBar;
-import org.inventivetalent.bossbar.BossBarAPI;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;

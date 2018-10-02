@@ -105,7 +105,7 @@ public class GameManager {
 
     public void startGame(Game game){
 
-        game.startGame(pl);
+        game.startGame();
 
     }
 
@@ -122,7 +122,7 @@ public class GameManager {
 
                         p.kickPlayer("The game server is restarting.");
                     };
-                    pl.registeredGame.runPostEvents(pl);
+                    pl.registeredGame.runPostEvents();
                     this.cancel();
                 }
 

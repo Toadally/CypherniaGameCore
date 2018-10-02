@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="cypherniagames:jar">
+    <output-path>$USER_HOME$/Documents/IntelliJ-Exports/CypherniaGames</output-path>
+    <root id="archive" name="cypherniagames.jar">
+      <element id="module-output" name="cypherniagames" />
+    </root>
+  </artifact>
+</component>
