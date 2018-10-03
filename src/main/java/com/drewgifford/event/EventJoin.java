@@ -3,6 +3,7 @@ package com.drewgifford.event;
 import com.drewgifford.CypherniaMinigames;
 import com.drewgifford.PlayerData.PlayerManager;
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -30,6 +31,13 @@ public class EventJoin implements Listener {
 
         }
         Player p = e.getPlayer();
+        p.setAllowFlight(false);
+        p.setFlying(false);
+        p.getInventory().clear();
+        p.updateInventory();
+        p.setGameMode(GameMode.SURVIVAL);
+        p.setHealth(20);
+        p.setFoodLevel(20);
         UUID uuid = p.getUniqueId();
         plugin.getGameManager().setIngame(p, false);
 

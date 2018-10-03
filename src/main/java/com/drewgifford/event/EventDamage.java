@@ -9,6 +9,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
 
 import java.util.HashMap;
 
@@ -26,14 +27,21 @@ public class EventDamage implements Listener {
 
             Player p = (Player) e.getEntity();
             p.setBedSpawnLocation(p.getLocation());
-            p.spigot().respawn();
             e.getDrops().clear();
             if(plugin.getGameManager().spectatorEnabled){
                 plugin.getGameManager().setSpectator(p);
                 plugin.getGameManager().setIngame(p, false);
                 plugin.getGameManager().endgameCheck();
+
+                plugin.broadcast(plugin.color(plugin.playerCountMsg.replaceAll("%playercount%", "" + plugin.getGameManager().getIngamePlayers().size())));
             }
         }
+
+
+    }
+    @EventHandler
+    public void onRespawn(PlayerRespawnEvent e){
+
 
 
     }

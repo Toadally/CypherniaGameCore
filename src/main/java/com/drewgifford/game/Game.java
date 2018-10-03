@@ -1,6 +1,7 @@
 package com.drewgifford.game;
 
 import com.drewgifford.CypherniaMinigames;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -79,6 +80,9 @@ public class Game {
 
     //Run Postgame Events
     public void runPostEvents(){
+
+
+        Bukkit.getServer().shutdown();
 
     }
 }

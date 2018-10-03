@@ -9,7 +9,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Random;
 
 public class GameManager {
@@ -24,6 +26,7 @@ public class GameManager {
     private Integer taskId;
     private boolean cancel;
     private String cancelMsg;
+
 
     public boolean spectatorEnabled = true;
 
@@ -45,6 +48,19 @@ public class GameManager {
                 finishGame(winner);
             }
         }
+    }
+
+    public List<Player> getIngamePlayers(){
+        List<Player> igp = new ArrayList<Player>();
+
+        for(Player p : ingamePlayers.keySet()){
+            if(isInGame(p)){
+                igp.add(p);
+            }
+        }
+        return igp;
+
+
     }
 
     public boolean countdownStarted = false;
@@ -95,12 +111,13 @@ public class GameManager {
 
     public void startCountdown(){
         if(countdownStarted) return;
-
+        countdownStarted = true;
 
 
         new BukkitRunnable(){
             @Override
             public void run(){
+
 
                 if(cancel == true){
                     pl.broadcast(cancelMsg);
@@ -124,6 +141,7 @@ public class GameManager {
                 if(lobbyCountdown == 0){
                     for(Player p : Bukkit.getOnlinePlayers()){
                         setIngame(p, true);
+                        p.setLevel(0);
                     }
                     startGame(pl.registeredGame);
                     this.cancel();
@@ -146,6 +164,7 @@ public class GameManager {
     }
 
     public void setSpectator(Player p ){
+        p.setAllowFlight(true);
         p.setFlying(true);
         p.setGameMode(GameMode.SPECTATOR);
     }
@@ -174,7 +193,7 @@ public class GameManager {
                 fireworkCt--;
 
             }
-        }.runTaskTimerAsynchronously(pl, 0, 10l);
+        }.runTaskTimer(pl, 0, 10l);
 
     }
 

@@ -147,8 +147,9 @@ public class CypherniaMinigames extends JavaPlugin {
         return ChatColor.translateAlternateColorCodes('&',s);
     }
     public void broadcast(String msg){
-
-        Bukkit.broadcastMessage(color(msg));
+        for(Player p : Bukkit.getOnlinePlayers()) {
+            p.sendMessage(color(msg));
+        }
 
     }
 

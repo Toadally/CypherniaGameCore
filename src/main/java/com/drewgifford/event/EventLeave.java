@@ -26,6 +26,8 @@ public class EventLeave implements Listener {
 
         Bukkit.broadcastMessage(plugin.color("&c&l- &f"+p.getName()));
 
+        plugin.getGameManager().endgameCheck();
+
         if(plugin.ingame == false){
 
             plugin.getGameManager().lobbyCheck();
