@@ -193,7 +193,7 @@ public class GameManager {
                 fireworkCt--;
 
             }
-        }.runTaskTimer(pl, 0, 10l);
+        }.runTaskTimer(pl, 0, 200l);
 
     }
 
