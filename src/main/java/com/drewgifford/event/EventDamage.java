@@ -20,6 +20,12 @@ public class EventDamage implements Listener {
 	public void onDamage(EntityDamageEvent event) {
 		if (event.getEntity() instanceof Player) {
 			Player player = (Player) event.getEntity();
+			
+			if (this.plugin.ingame == false) {
+				event.setCancelled(true);
+				return;
+			}
+			
 			if (player.getHealth() - event.getDamage() <= 0) {
 				player.sendMessage("You have died! You are now in spectator mode!");
 				player.setHealth(20.0);
@@ -35,6 +41,7 @@ public class EventDamage implements Listener {
 			}
 		}
 	}
+    
     @EventHandler
     public void onRespawn(PlayerRespawnEvent e){
 
