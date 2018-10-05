@@ -26,6 +26,7 @@ public class GameManager {
     private Integer taskId;
     private boolean cancel;
     private String cancelMsg;
+    public boolean gameStarted = false;
 
 
     public boolean spectatorEnabled = true;
@@ -144,6 +145,7 @@ public class GameManager {
                         p.setLevel(0);
                     }
                     startGame(pl.registeredGame);
+                    gameStarted = true;
                     this.cancel();
                 }
 
@@ -160,6 +162,7 @@ public class GameManager {
     public void startGame(Game game){
 
         game.startGame();
+        gameStarted = true;
 
     }
 
