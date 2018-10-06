@@ -18,13 +18,22 @@ public class EventDamage implements Listener {
 
     @EventHandler
 	public void onDamage(EntityDamageEvent event) {
-    	if (this.plugin.getGameManager().gameStarted == false) {
-			event.setCancelled(true);
-			return;
-		}
+    	
 		if (event.getEntity() instanceof Player) {
-			Player player = (Player) event.getEntity();
 			
+			boolean exists = false;
+	    	for (Player p : this.plugin.getGameManager().getIngamePlayers()) {
+	    		if (p.getName().equalsIgnoreCase(((Player) event.getEntity()).getName())) {
+	    			exists = true;
+	    		}
+	    	}
+	    	if (exists == false) {
+	    		event.setCancelled(true);
+	    		return;
+	    	}
+
+			
+			Player player = (Player) event.getEntity();
 			if (player.getHealth() - event.getDamage() <= 0) {
 				player.sendMessage("You have died! You are now in spectator mode!");
 				player.setHealth(20.0);
