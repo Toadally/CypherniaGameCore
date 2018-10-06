@@ -160,6 +160,7 @@ public class GameManager {
 				}
 
 				if(lobbyCountdown == 0){
+					pl.getScoreboardManager().reset();
 					for(Player p : Bukkit.getOnlinePlayers()){
 						setIngame(p, true);
 						p.setLevel(0);
@@ -168,7 +169,7 @@ public class GameManager {
 					}
 					startGame(pl.registeredGame);
 					//cancelTask(countdownTaskId);
-					pl.getScoreboardManager().reset();
+
 					this.cancel();
 				}
 
@@ -330,7 +331,7 @@ public class GameManager {
 		int z = 0;  // Marks the y coord of the centre of your map.
 		//int minDistance = 250;  // The minimum distance between players / teams.
 		//int maxRange = 1500;  // The maximum range (applies to x and z coordinates.
-		boolean respectTeams = true;  // Whether players in teams should be teleported to the same location (if applicable).
+		boolean respectTeams = false;  // Whether players in teams should be teleported to the same location (if applicable).
 		String players = "@a";  // Here you specify a list of player names separated by spaces, or use commandblock specifiers.
 
 		ConsoleCommandSender console = Bukkit.getServer().getConsoleSender();

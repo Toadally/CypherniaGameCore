@@ -38,6 +38,10 @@ public class EventJoin implements Listener {
         p.setGameMode(GameMode.SURVIVAL);
         p.setHealth(20);
         p.setFoodLevel(20);
+
+        p.getInventory().setItem(4, plugin.getKitSelector());
+        p.updateInventory();
+
         UUID uuid = p.getUniqueId();
 
         plugin.getScoreboardManager().addPlayer(p);

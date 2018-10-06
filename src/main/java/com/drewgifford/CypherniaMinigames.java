@@ -6,6 +6,7 @@ import com.drewgifford.event.InstantDeathEvent;
 import com.drewgifford.game.Game;
 import com.drewgifford.game.GameManager;
 import com.drewgifford.game.GameScoreboard;
+import com.drewgifford.game.Kit;
 import com.drewgifford.utility.ItemStackSerializer;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
@@ -46,6 +47,15 @@ public class CypherniaMinigames extends JavaPlugin {
     private GameScoreboard gs;
     private Scoreboard scoreboard;
 
+    private List<Kit> kits = new ArrayList<Kit>();
+
+    public List<Kit> getKits(){
+        return this.kits;
+    }
+    public void addKit(Kit k){
+        kits.add(k);
+    }
+
     public Scoreboard getScoreboard(){
         return this.scoreboard;
     }
@@ -53,10 +63,9 @@ public class CypherniaMinigames extends JavaPlugin {
         return this.registeredGame;
     }
 
-
-
-
-
+    public ItemStack getKitSelector() {
+        return kitSelector;
+    }
 
     public GameManager getGameManager(){
         return gm;
@@ -81,7 +90,7 @@ public class CypherniaMinigames extends JavaPlugin {
         loadConfig();
         parseConfig();
         scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
-        gs = new GameScoreboard(this);
+
 
 
 
@@ -109,7 +118,7 @@ public class CypherniaMinigames extends JavaPlugin {
         log.info("Successfully registered minigame "+game.getName()+".");
         allowJoins = false;
         registeredGame.runPreEvents();
-
+        gs = new GameScoreboard(this, game.getName());
         gs.reset();
         gs.addScore(color("&cWaiting for players..."));
 

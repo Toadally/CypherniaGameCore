@@ -41,14 +41,16 @@ public class EventDamage implements Listener {
 				player.getInventory().clear();
 				player.updateInventory();
 	            if(plugin.getGameManager().spectatorEnabled){
+					player.sendTitle(plugin.color("&c&lYou died"), plugin.color("&7You are now in spectator mode."));
 	            	plugin.getGameManager().setSpectator(player);
 	            	plugin.getGameManager().setIngame(player, false);
 	            	plugin.getGameManager().endgameCheck();
 
 	            	plugin.broadcast(plugin.color(plugin.playerCountMsg.replaceAll("%playercount%", "" + plugin.getGameManager().getIngamePlayers().size())));
 	            }
+
                 InstantDeathEvent instantDeathEvent = new InstantDeathEvent(event);
-                Bukkit.getServer().getPluginManager().callEvent(event);
+                Bukkit.getServer().getPluginManager().callEvent(instantDeathEvent);
 			}
 		}
 	}
