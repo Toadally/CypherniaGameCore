@@ -15,6 +15,7 @@ import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitScheduler;
@@ -192,6 +193,19 @@ public class GameManager {
 	public void startGame(Game game){
 
 		game.startGame();
+		for(Player p : Bukkit.getOnlinePlayers()){
+
+			if(Kit.getSelectedKit(p) != null){
+				Kit k = Kit.getSelectedKit(p);
+				for(ItemStack i : k.getItems()){
+
+					p.getInventory().addItem(i);
+
+				}
+				p.updateInventory();
+			}
+
+		}
 
 	}
 
