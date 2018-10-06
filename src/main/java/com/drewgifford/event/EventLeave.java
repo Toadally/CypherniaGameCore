@@ -25,9 +25,10 @@ public class EventLeave implements Listener {
         plugin.getGameManager().unregisterPlayer(p);
 
         Bukkit.broadcastMessage(plugin.color("&c&l- &f"+p.getName()));
-
+        plugin.broadcast(plugin.color(plugin.playerCountMsg.replaceAll("%playercount%", "" + plugin.getGameManager().getIngamePlayers().size())));
+        
         plugin.getGameManager().endgameCheck();
-
+        
         if(plugin.ingame == false){
 
             plugin.getGameManager().lobbyCheck();
