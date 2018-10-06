@@ -1,18 +1,24 @@
 package com.drewgifford.game;
 
-import com.drewgifford.CypherniaMinigames;
-import org.bukkit.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Random;
+
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Color;
+import org.bukkit.FireworkEffect;
+import org.bukkit.GameMode;
+import org.bukkit.Sound;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.meta.FireworkMeta;
-import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitScheduler;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Random;
+import com.drewgifford.CypherniaMinigames;
 
 public class GameManager {
 
@@ -26,7 +32,6 @@ public class GameManager {
 	private Integer taskId;
 	private boolean cancel;
 	private String cancelMsg;
-	private boolean startedGame = false;
 
 
 	public boolean spectatorEnabled = true;
@@ -102,6 +107,7 @@ public class GameManager {
 			}
 			cancel = true;
 			cancelMsg = msg;
+			countdownStarted = false;
 		}
 	}
 
@@ -110,12 +116,13 @@ public class GameManager {
 
 	}
 
+	int countdownTaskId = -1;
 	public void startCountdown(){
 		if(countdownStarted) return;
 		countdownStarted = true;
 
 
-		new BukkitRunnable(){
+		Runnable task = new Runnable(){
 			@Override
 			public void run(){
 
@@ -123,7 +130,7 @@ public class GameManager {
 				if(cancel == true){
 					pl.broadcast(cancelMsg);
 					cancel = false;
-					this.cancel();
+					cancelTask(countdownTaskId);
 					return;
 				}
 
@@ -147,7 +154,7 @@ public class GameManager {
 						p.sendMessage(ChatColor.YELLOW + "GO!");
 					}
 					startGame(pl.registeredGame);
-					this.cancel();
+					cancelTask(countdownTaskId);
 				}
 
 
@@ -155,17 +162,20 @@ public class GameManager {
 			}
 
 
-		}.runTaskTimerAsynchronously(pl, 0, 20l);
+		};
+		countdownTaskId = pl.getServer().getScheduler().scheduleSyncRepeatingTask(pl, task, 0L, 20);
 
 
 	}
 
+	public void cancelTask(int id) {
+		BukkitScheduler scheduler = pl.getServer().getScheduler();
+		scheduler.cancelTask(id);
+	}
+
 	public void startGame(Game game){
 
-		startedGame = true;
-		if (startedGame == false) {
-			game.startGame();
-		}
+		game.startGame();
 
 	}
 
@@ -177,9 +187,11 @@ public class GameManager {
 
 	int fireworkCt = 10;
 
+	int fireworkTaskId = -1;
+
 	public void finishGame(final Player winner){
 
-		new BukkitRunnable(){
+		Runnable task = new Runnable(){
 			@Override
 			public void run(){
 
@@ -189,7 +201,7 @@ public class GameManager {
 						p.kickPlayer("The game server is restarting.");
 					};
 					pl.registeredGame.runPostEvents();
-					this.cancel();
+					cancelTask(fireworkTaskId);
 				}
 
 				launchFirework(winner);
@@ -199,7 +211,8 @@ public class GameManager {
 				fireworkCt--;
 
 			}
-		}.runTaskTimer(pl, 0, 20l);
+		};
+		fireworkTaskId = pl.getServer().getScheduler().scheduleSyncRepeatingTask(pl, task, 0, 20);
 
 	}
 
