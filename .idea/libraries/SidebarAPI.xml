@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="SidebarAPI">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/Downloads/SidebarAPI.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/Downloads/SidebarAPI.jar!/" />
+    </SOURCES>
+  </library>
+</component>

@@ -15,6 +15,10 @@ messages:
    lobby:
      notEnoughPlayers: "&cNot enough players are online to start the game. The countdown timer has been cancelled."
 
+bungeecord:
+  useBungee: false
+  fallback-server: hub
+
 spawnLocation:
    x: 0
    y: 128

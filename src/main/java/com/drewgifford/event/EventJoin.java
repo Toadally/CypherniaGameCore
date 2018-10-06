@@ -39,6 +39,8 @@ public class EventJoin implements Listener {
         p.setHealth(20);
         p.setFoodLevel(20);
         UUID uuid = p.getUniqueId();
+
+        plugin.getScoreboardManager().addPlayer(p);
         plugin.getGameManager().setIngame(p, false);
 
         plugin.playermanager.put(uuid, new PlayerManager(uuid, false, false, 0, 0));
@@ -46,10 +48,13 @@ public class EventJoin implements Listener {
 
         if(plugin.ingame == false){
             //p.teleport(plugin.spawnLoc);
-            Bukkit.broadcastMessage(plugin.color("&a&l+ &f"+p.getName()));
+            e.setJoinMessage(plugin.color("&a&l+ &f"+p.getName()));
             plugin.getGameManager().lobbyCheck();
 
         } else {
+
+            //Add Bungee lobby here
+
             p.kickPlayer("The game has already started.");
             e.setJoinMessage("The game has already started.");
         }

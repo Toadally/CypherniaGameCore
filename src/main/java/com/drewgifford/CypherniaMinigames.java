@@ -2,8 +2,10 @@ package com.drewgifford;
 
 import com.drewgifford.PlayerData.PlayerManager;
 import com.drewgifford.event.EventsHandler;
+import com.drewgifford.event.InstantDeathEvent;
 import com.drewgifford.game.Game;
 import com.drewgifford.game.GameManager;
+import com.drewgifford.game.GameScoreboard;
 import com.drewgifford.utility.ItemStackSerializer;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
@@ -12,6 +14,8 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scoreboard.Scoreboard;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -39,9 +43,26 @@ public class CypherniaMinigames extends JavaPlugin {
     public ItemStack kitSelector;
     public boolean ingame = false;
     private GameManager gm = new GameManager(this);
+    private GameScoreboard gs;
+    private Scoreboard scoreboard;
+
+    public Scoreboard getScoreboard(){
+        return this.scoreboard;
+    }
+    public Game getGame(){
+        return this.registeredGame;
+    }
+
+
+
+
+
 
     public GameManager getGameManager(){
         return gm;
+    }
+    public GameScoreboard getScoreboardManager(){
+        return gs;
     }
 
     //OPTIONS PER GAME
@@ -59,6 +80,11 @@ public class CypherniaMinigames extends JavaPlugin {
         log.info("Cyphernia Game Core enabled.");
         loadConfig();
         parseConfig();
+        scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
+        gs = new GameScoreboard(this);
+
+
+
     }
 
     public void onDisable(){
@@ -83,6 +109,10 @@ public class CypherniaMinigames extends JavaPlugin {
         log.info("Successfully registered minigame "+game.getName()+".");
         allowJoins = false;
         registeredGame.runPreEvents();
+
+        gs.reset();
+        gs.addScore(color("&cWaiting for players..."));
+
     }
 
     private void loadConfig(){

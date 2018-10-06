@@ -16,9 +16,11 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.meta.FireworkMeta;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitScheduler;
 
 import com.drewgifford.CypherniaMinigames;
+import org.bukkit.scoreboard.ScoreboardManager;
 
 public class GameManager {
 
@@ -94,7 +96,7 @@ public class GameManager {
 			}
 		} else {
 			if(playerCount >= pl.playersNeeded){
-				startCountdown();
+				startLobbyCountdown();
 			}
 		}
 
@@ -108,6 +110,8 @@ public class GameManager {
 			cancel = true;
 			cancelMsg = msg;
 			countdownStarted = false;
+			pl.getScoreboardManager().reset();
+            pl.getScoreboardManager().addScore("&cWaiting for players...");
 		}
 	}
 
@@ -116,13 +120,17 @@ public class GameManager {
 
 	}
 
+
 	int countdownTaskId = -1;
-	public void startCountdown(){
+	public void startLobbyCountdown(){
 		if(countdownStarted) return;
 		countdownStarted = true;
 
+		pl.getScoreboardManager().reset();
 
-		Runnable task = new Runnable(){
+		// This won't cancel for me -Toad
+
+		new BukkitRunnable(){
 			@Override
 			public void run(){
 
@@ -138,6 +146,11 @@ public class GameManager {
 					p.setLevel(lobbyCountdown);
 
 				}
+				if(lobbyCountdown > 0){
+					pl.getScoreboardManager().removeScore(pl.color("&eGame starting in &f"+(lobbyCountdown+1)));
+                    pl.getScoreboardManager().addScore(pl.color("&eGame starting in &f"+lobbyCountdown));
+
+                }
 
 				if(lobbyCountdown == 20 || lobbyCountdown == 10 || lobbyCountdown < 6 && lobbyCountdown > 0){
 					for(Player p : Bukkit.getOnlinePlayers()){
@@ -154,7 +167,9 @@ public class GameManager {
 						p.sendMessage(ChatColor.YELLOW + "GO!");
 					}
 					startGame(pl.registeredGame);
-					cancelTask(countdownTaskId);
+					//cancelTask(countdownTaskId);
+					pl.getScoreboardManager().reset();
+					this.cancel();
 				}
 
 
@@ -162,15 +177,15 @@ public class GameManager {
 			}
 
 
-		};
-		countdownTaskId = pl.getServer().getScheduler().scheduleSyncRepeatingTask(pl, task, 0L, 20);
+		}.runTaskTimer(pl, 0l, 20l);
+		//countdownTaskId = pl.getServer().getScheduler().scheduleSyncRepeatingTask(pl, task, 0L, 20);
 
 
 	}
 
 	public void cancelTask(int id) {
 		BukkitScheduler scheduler = pl.getServer().getScheduler();
-		scheduler.cancelTask(id);
+		scheduler.cancelTasks(pl);
 	}
 
 	public void startGame(Game game){

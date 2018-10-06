@@ -2,4 +2,5 @@ name: CypherniaGameCore
 version: 1.0
 main: com.drewgifford.CypherniaMinigames
 author: Toadally
-depend: []
+depend: [SidebarAPI]
+load: POSTWORLD

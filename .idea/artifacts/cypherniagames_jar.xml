@@ -3,6 +3,7 @@
     <output-path>$USER_HOME$/Documents/IntelliJ-Exports/CypherniaGames</output-path>
     <root id="archive" name="cypherniagames.jar">
       <element id="module-output" name="cypherniagames" />
+      <element id="dir-copy" path="$PROJECT_DIR$/src/main/resources" />
     </root>
   </artifact>
 </component>

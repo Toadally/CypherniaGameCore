@@ -2,6 +2,7 @@ package com.drewgifford.event;
 
 import com.drewgifford.CypherniaMinigames;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -46,6 +47,8 @@ public class EventDamage implements Listener {
 
 	            	plugin.broadcast(plugin.color(plugin.playerCountMsg.replaceAll("%playercount%", "" + plugin.getGameManager().getIngamePlayers().size())));
 	            }
+                InstantDeathEvent instantDeathEvent = new InstantDeathEvent(event);
+                Bukkit.getServer().getPluginManager().callEvent(event);
 			}
 		}
 	}
