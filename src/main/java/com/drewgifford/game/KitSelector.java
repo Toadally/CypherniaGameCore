@@ -49,7 +49,7 @@ public class KitSelector implements Listener {
 
 
         }
-
+        p.closeInventory();
         p.openInventory(inv);
 
 
@@ -84,9 +84,10 @@ public class KitSelector implements Listener {
 
 
             }
-
+            e.setCancelled(true);
 
         }
+
 
     }
 }
