@@ -61,7 +61,7 @@ public class EventDamage implements Listener {
     	if (event.getDamager() instanceof Player) {
     		boolean exists = false;
 	    	for (Player p : this.plugin.getGameManager().getIngamePlayers()) {
-	    		if (p.getName().equalsIgnoreCase(((Player) event.getEntity()).getName())) {
+	    		if (p.getName().equalsIgnoreCase(((Player) event.getDamager()).getName())) {
 	    			exists = true;
 	    		}
 	    	}
