@@ -13,6 +13,7 @@ public class EventsHandler {
         pm.registerEvents(new EventLeave(plugin), plugin);
         pm.registerEvents(new EventDamage(plugin), plugin);
         pm.registerEvents(new EventRightClick(plugin), plugin);
+        pm.registerEvents(new EventHunger(plugin), plugin);
 
     }
 }
