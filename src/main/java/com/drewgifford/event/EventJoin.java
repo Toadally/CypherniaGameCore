@@ -38,6 +38,7 @@ public class EventJoin implements Listener {
         p.setGameMode(GameMode.SURVIVAL);
         p.setHealth(20);
         p.setFoodLevel(20);
+        p.setExp(0.0f);
 
         p.getInventory().setItem(4, plugin.getKitSelector());
         p.updateInventory();
@@ -53,7 +54,7 @@ public class EventJoin implements Listener {
         if(plugin.ingame == false){
             //p.teleport(plugin.spawnLoc);
             e.setJoinMessage(plugin.color("&a&l+ &f"+p.getName()));
-            plugin.getGameManager().lobbyCheck();
+            plugin.getGameManager().lobbyCheck(Bukkit.getServer().getOnlinePlayers().size());
 
         } else {
 

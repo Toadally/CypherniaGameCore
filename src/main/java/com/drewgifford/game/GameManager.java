@@ -87,9 +87,7 @@ public class GameManager {
 	}
 
 
-	public void lobbyCheck(){
-
-		int playerCount = Bukkit.getServer().getOnlinePlayers().size();
+	public void lobbyCheck(int playerCount){
 
 		if(countdownStarted){
 			if(playerCount < pl.playersNeeded){
