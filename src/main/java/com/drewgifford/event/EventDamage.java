@@ -6,6 +6,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 
@@ -54,6 +55,22 @@ public class EventDamage implements Listener {
 			}
 		}
 	}
+    
+    @EventHandler
+    public void onEntityDamageEntity(EntityDamageByEntityEvent event) {
+    	if (event.getDamager() instanceof Player) {
+    		boolean exists = false;
+	    	for (Player p : this.plugin.getGameManager().getIngamePlayers()) {
+	    		if (p.getName().equalsIgnoreCase(((Player) event.getDamager()).getName())) {
+	    			exists = true;
+	    		}
+	    	}
+	    	if (exists == false) {
+	    		event.setCancelled(true);
+	    		return;
+	    	}
+    	}
+    }
     
     @EventHandler
     public void onRespawn(PlayerRespawnEvent e){
