@@ -49,6 +49,7 @@ public class EventJoin implements Listener {
         }
         p.getInventory().setItem(4, plugin.getKitSelector());
         p.updateInventory();
+        p.setFireTicks(0);
 
         UUID uuid = p.getUniqueId();
 

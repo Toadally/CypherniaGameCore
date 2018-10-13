@@ -163,6 +163,7 @@ public class GameManager {
 					for(Player p : Bukkit.getOnlinePlayers()){
 						setIngame(p, true);
 						p.setLevel(0);
+						p.setFireTicks(0);
 						p.playSound(p.getLocation(), Sound.CLICK, 1f, 2f);
 						p.sendMessage(ChatColor.YELLOW + "GO!");
 					}
