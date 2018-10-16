@@ -46,7 +46,8 @@ public class KitSelector implements Listener {
             }
 
             inv.setItem(index, is);
-
+            
+            index++;
 
         }
         p.closeInventory();
