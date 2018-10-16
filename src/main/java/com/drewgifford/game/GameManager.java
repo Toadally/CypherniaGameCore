@@ -190,6 +190,7 @@ public class GameManager {
 	}
 
 	public void startGame(Game game){
+		pl.ingame = true;
 		game.startGame();
 		for(Player p : Bukkit.getOnlinePlayers()){
 			p.getInventory().clear();
@@ -230,6 +231,7 @@ public class GameManager {
 						p.kickPlayer("The game server is restarting.");
 					};
 					pl.registeredGame.runPostEvents();
+					pl.ingame = true;
 					cancelTask(fireworkTaskId);
 				}
 
