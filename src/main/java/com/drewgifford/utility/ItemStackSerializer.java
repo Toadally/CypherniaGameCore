@@ -55,9 +55,10 @@ public class ItemStackSerializer {
             Bukkit.getLogger().info("Could not find a valid material for the item in \"" + serializedItem + "\"");
             return null;
         }
-        for(String str:strings){
+        for(int i = 0; i < strings.length; i++){
+        	String str = strings[i];
             args = str.split(":", 2);
-            if(isNumber(args[0])) item.setAmount(Integer.parseInt(args[0]));
+            if(isNumber(args[0]) && i == 1) item.setAmount(Integer.parseInt(args[0]));
             if(args.length == 1) continue;
             if(args[0].equalsIgnoreCase("name")){
                 setName(item, ChatColor.translateAlternateColorCodes('&', args[1]));

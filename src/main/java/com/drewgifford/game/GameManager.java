@@ -190,10 +190,10 @@ public class GameManager {
 	}
 
 	public void startGame(Game game){
-
 		game.startGame();
 		for(Player p : Bukkit.getOnlinePlayers()){
-
+			p.getInventory().clear();
+			p.updateInventory();
 			if(Kit.getSelectedKit(p) != null){
 				Kit k = Kit.getSelectedKit(p);
 				for(ItemStack i : k.getItems()){
