@@ -60,35 +60,4 @@ public class KitSelector implements Listener {
         return ((((from / 9) + ((from % 9 == 0) ? 0 : 1)) * 9));
     }
 
-    @EventHandler
-    public void clickItem(InventoryClickEvent e){
-        Inventory i = e.getClickedInventory();
-
-        if(!i.getName().equalsIgnoreCase(pl.color("&8&l&nKit Selector"))) return;
-
-        ItemStack item = e.getCurrentItem();
-        String name = item.getItemMeta().getDisplayName();
-        Player p = (Player) e.getWhoClicked();
-
-        for(Kit k : pl.getKits()){
-            ItemStack x = k.getBuiltIcon();
-
-            if(name.equalsIgnoreCase(x.getItemMeta().getDisplayName())){
-
-                Kit.setSelectedKit(p, k);
-
-                p.sendMessage(pl.color("&6Selected kit &e"+ ChatColor.stripColor(name)));
-                p.closeInventory();
-
-
-
-
-
-            }
-            e.setCancelled(true);
-
-        }
-
-
-    }
 }
