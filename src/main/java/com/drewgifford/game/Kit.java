@@ -19,7 +19,7 @@ public class Kit {
     private ItemStack[] items;
     private CypherniaMinigames pl;
 
-    public Kit(String name, List<String> description, Material icon, CypherniaMinigames pl, ItemStack... items){
+    public Kit(String name, List<String> lore, Material icon, CypherniaMinigames pl, ItemStack... items){
         this.name = name;
         this.lore = lore;
         this.icon = icon;

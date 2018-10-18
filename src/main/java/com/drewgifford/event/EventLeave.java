@@ -29,7 +29,7 @@ public class EventLeave implements Listener {
         
         plugin.getGameManager().endgameCheck();
         
-        if(plugin.ingame == false){
+        if(plugin.getGameManager().getIngamePlayers().size() == 0){
 
             plugin.getGameManager().lobbyCheck(Bukkit.getServer().getOnlinePlayers().size() - 1);
 

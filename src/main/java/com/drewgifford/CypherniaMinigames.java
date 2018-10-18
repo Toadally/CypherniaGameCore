@@ -114,7 +114,7 @@ public class CypherniaMinigames extends JavaPlugin {
 
         this.registeredGame = game;
 
-        EventsHandler handler = new EventsHandler(this);
+        new EventsHandler(this);
         log.info("Successfully registered minigame "+game.getName()+".");
         allowJoins = false;
         registeredGame.runPreEvents();

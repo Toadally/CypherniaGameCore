@@ -21,7 +21,6 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitScheduler;
 
 import com.drewgifford.CypherniaMinigames;
-import org.bukkit.scoreboard.ScoreboardManager;
 
 public class GameManager {
 
@@ -32,7 +31,6 @@ public class GameManager {
 	}
 
 	private int lobbyCountdown = 20;
-	private Integer taskId;
 	private boolean cancel;
 	private String cancelMsg;
 
@@ -102,16 +100,14 @@ public class GameManager {
 	}
 
 	public void cancelCountdown(String msg){
-		if(taskId != null) {
-			if(msg != "" && msg != null) {
-				pl.broadcast(msg);
-			}
-			cancel = true;
-			cancelMsg = msg;
-			countdownStarted = false;
-			pl.getScoreboardManager().reset();
-            pl.getScoreboardManager().addScore("&cWaiting for players...");
+		if(msg != "" && msg != null) {
+			pl.broadcast(msg);
 		}
+		cancel = true;
+		cancelMsg = msg;
+		countdownStarted = false;
+		pl.getScoreboardManager().reset();
+		pl.getScoreboardManager().addScore("&cWaiting for players...");
 	}
 
 
@@ -137,7 +133,7 @@ public class GameManager {
 				if(cancel == true){
 					pl.broadcast(cancelMsg);
 					cancel = false;
-					cancelTask(countdownTaskId);
+					this.cancel();
 					return;
 				}
 
@@ -147,9 +143,9 @@ public class GameManager {
 				}
 				if(lobbyCountdown > 0){
 					pl.getScoreboardManager().removeScore(pl.color("&eGame starting in &f"+(lobbyCountdown+1)));
-                    pl.getScoreboardManager().addScore(pl.color("&eGame starting in &f"+lobbyCountdown));
+					pl.getScoreboardManager().addScore(pl.color("&eGame starting in &f"+lobbyCountdown));
 
-                }
+				}
 
 				if(lobbyCountdown == 20 || lobbyCountdown == 10 || lobbyCountdown < 6 && lobbyCountdown > 0){
 					for(Player p : Bukkit.getOnlinePlayers()){
