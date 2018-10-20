@@ -207,6 +207,7 @@ public class CypherniaMinigames extends JavaPlugin {
 
 	public boolean connectToBungeeServer(Player player, String server) {
 		try {
+			getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
 			if (server.length() == 0) {
 				player.kickPlayer("There was an issue sending you back to the hub. We are kicking you from this server.");
 				Bukkit.getLogger().warning("FATAL ERROR: Could not send player back to the hub. Reason: Invalid server name");
