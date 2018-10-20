@@ -24,10 +24,14 @@ public class EventJoin implements Listener {
     public void onJoin(PlayerJoinEvent e){
 
 
-        if(plugin.allowJoins = false){
-
-            e.getPlayer().kickPlayer("The server is still initiating. Join back in a few seconds");
-            e.setJoinMessage("The server is still initiating. Join back in a few seconds");
+        if(plugin.allowJoins == false){
+        	if (plugin.getConfig().getBoolean("bungeecord.useBungee")) {
+        		e.getPlayer().sendMessage("§6The server is still initiating. Join back in a few seconds");
+        		plugin.connectToBungeeServer(e.getPlayer(), plugin.getConfig().getString("bungeecord.fallback-server"));
+        	} else {
+        		e.getPlayer().kickPlayer("The server is still initiating. Join back in a few seconds");
+        		e.setJoinMessage("The server is still initiating. Join back in a few seconds");
+        	}
             return;
 
         }
@@ -59,17 +63,17 @@ public class EventJoin implements Listener {
         plugin.playermanager.put(uuid, new PlayerManager(uuid, false, false, 0, 0));
 
 
-        if(plugin.ingame == false){
-            //p.teleport(plugin.spawnLoc);
+        if(plugin.getGameManager().getIngamePlayers().size() == 0){
             e.setJoinMessage(plugin.color("&a&l+ &f"+p.getName()));
             plugin.getGameManager().lobbyCheck(Bukkit.getServer().getOnlinePlayers().size());
-
         } else {
-
-            //Add Bungee lobby here
-
-            p.kickPlayer("The game has already started.");
-            e.setJoinMessage("The game has already started.");
+        	if (plugin.getConfig().getBoolean("bungeecord.useBungee")) {
+        		e.getPlayer().sendMessage("§cThis game has already started!");
+        		plugin.connectToBungeeServer(e.getPlayer(), plugin.getConfig().getString("bungeecord.fallback-server"));
+        	} else {
+        		p.kickPlayer("The game has already started.");
+                e.setJoinMessage("The game has already started.");
+        	}
         }
 
     }

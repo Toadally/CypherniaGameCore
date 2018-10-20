@@ -18,24 +18,36 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scheduler.BukkitScheduler;
 
 import com.drewgifford.CypherniaMinigames;
 
 public class GameManager {
 
-	CypherniaMinigames pl;
+	private CypherniaMinigames pl;
+	public int lobbyCountdown;
+	private boolean cancel = false;
+	private String cancelMsg = "";
+	int fireworkCt = 10;
+	public boolean spectatorEnabled = true;
+	public boolean countdownStarted = false;
+	public HashMap<Player, Boolean> ingamePlayers = new HashMap<Player, Boolean>();
+	public boolean canceledFireworks = false;
+	public BukkitRunnable fireworksRunnable;
 
 	public GameManager(CypherniaMinigames pl){
 		this.pl = pl;
+		this.lobbyCountdown = pl.getConfig().getInt("countdown");
 	}
 
-	private int lobbyCountdown = 20;
-	private boolean cancel;
-	private String cancelMsg;
-
-
-	public boolean spectatorEnabled = true;
+	public void reset() {
+		this.lobbyCountdown = pl.getConfig().getInt("countdown");
+		this.cancel = false;
+		this.cancelMsg = "";
+		this.fireworkCt = 10;
+		this.countdownStarted = false;
+		this.ingamePlayers.clear();
+		this.canceledFireworks = false;
+	}
 
 	public void setSpectatorEnabled(boolean b){
 		this.spectatorEnabled = b;
@@ -70,9 +82,7 @@ public class GameManager {
 
 	}
 
-	public boolean countdownStarted = false;
-
-	private HashMap<Player, Boolean> ingamePlayers = new HashMap<Player, Boolean>();
+	
 	public boolean isInGame(Player p){
 		return ingamePlayers.get(p);
 	}
@@ -116,14 +126,11 @@ public class GameManager {
 	}
 
 
-	int countdownTaskId = -1;
 	public void startLobbyCountdown(){
 		if(countdownStarted) return;
 		countdownStarted = true;
 
 		pl.getScoreboardManager().reset();
-
-		// This won't cancel for me -Toad
 
 		new BukkitRunnable(){
 			@Override
@@ -156,6 +163,7 @@ public class GameManager {
 
 				if(lobbyCountdown == 0){
 					pl.getScoreboardManager().reset();
+					pl.getScoreboardManager().addScore("Have fun!");
 					for(Player p : Bukkit.getOnlinePlayers()){
 						setIngame(p, true);
 						p.setLevel(0);
@@ -164,7 +172,6 @@ public class GameManager {
 						p.sendMessage(ChatColor.YELLOW + "GO!");
 					}
 					startGame(pl.registeredGame);
-					//cancelTask(countdownTaskId);
 
 					this.cancel();
 				}
@@ -175,18 +182,11 @@ public class GameManager {
 
 
 		}.runTaskTimer(pl, 0l, 20l);
-		//countdownTaskId = pl.getServer().getScheduler().scheduleSyncRepeatingTask(pl, task, 0L, 20);
 
 
-	}
-
-	public void cancelTask(int id) {
-		BukkitScheduler scheduler = pl.getServer().getScheduler();
-		scheduler.cancelTasks(pl);
 	}
 
 	public void startGame(Game game){
-		pl.ingame = true;
 		game.startGame();
 		for(Player p : Bukkit.getOnlinePlayers()){
 			p.getInventory().clear();
@@ -202,6 +202,7 @@ public class GameManager {
 			}
 
 		}
+		pl.ingame = true;
 
 	}
 
@@ -211,24 +212,25 @@ public class GameManager {
 		p.setGameMode(GameMode.SPECTATOR);
 	}
 
-	int fireworkCt = 10;
-
-	int fireworkTaskId = -1;
-
 	public void finishGame(final Player winner){
 
-		Runnable task = new Runnable(){
+		fireworksRunnable = new BukkitRunnable(){
 			@Override
 			public void run(){
 
 				if(fireworkCt == 0){
 					for(Player p : Bukkit.getOnlinePlayers()){
 
-						p.kickPlayer("The game server is restarting.");
+						if (pl.getConfig().getBoolean("bungeecord.useBungee")) {
+							
+							pl.connectToBungeeServer(p, pl.getConfig().getString("bungeecord.fallback-server"));
+						} else {
+							p.kickPlayer("The game server is restarting.");
+						}
 					};
 					pl.registeredGame.runPostEvents();
-					pl.ingame = true;
-					cancelTask(fireworkTaskId);
+					canceledFireworks = true;
+					this.cancel();
 				}
 
 				launchFirework(winner);
@@ -239,7 +241,7 @@ public class GameManager {
 
 			}
 		};
-		fireworkTaskId = pl.getServer().getScheduler().scheduleSyncRepeatingTask(pl, task, 0, 20);
+		fireworksRunnable.runTaskTimer(pl, 0, 20);
 
 	}
 
