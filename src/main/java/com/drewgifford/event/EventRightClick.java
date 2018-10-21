@@ -1,6 +1,7 @@
 package com.drewgifford.event;
 
 import com.drewgifford.CypherniaMinigames;
+import com.drewgifford.game.HubSelector;
 import com.drewgifford.game.KitSelector;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -10,26 +11,26 @@ import org.bukkit.event.player.PlayerInteractEvent;
 
 public class EventRightClick implements Listener {
 
-    CypherniaMinigames
-    plugin;
+	CypherniaMinigames
+	plugin;
 
 
-    public EventRightClick(CypherniaMinigames plugin){
-        this.plugin = plugin;
-    }
+	public EventRightClick(CypherniaMinigames plugin){
+		this.plugin = plugin;
+	}
 
-    @EventHandler
-    public void onRightClick(PlayerInteractEvent e){
-        Player p = e.getPlayer();
-        if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK){
+	@EventHandler
+	public void onRightClick(PlayerInteractEvent e){
+		Player p = e.getPlayer();
+		if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK){
+			if (plugin.getGameManager().ingamePlayers.size() == 0) {
+				if (p.getItemInHand().isSimilar(plugin.getKitSelector())){
+					KitSelector.openSelector(plugin, p);
+				} else if (p.getItemInHand().isSimilar(plugin.getHubSelector()) && plugin.getConfig().getBoolean("bungeecord.useBungee")) {
+					HubSelector.movePlayerToLobby(p);
+				}
+			}
+		}
 
-            if(p.getItemInHand().isSimilar(plugin.getKitSelector())){
-
-                KitSelector.openSelector(plugin, p);
-
-            }
-
-        }
-
-    }
+	}
 }
