@@ -1,6 +1,5 @@
 package com.drewgifford.event;
 
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
@@ -16,13 +15,7 @@ public class EventHunger implements Listener {
 	
 	@EventHandler
 	public void onHunger(FoodLevelChangeEvent event) {
-		boolean exists = false;
-    	for (Player p : this.plugin.getGameManager().getIngamePlayers()) {
-    		if (p.getName().equalsIgnoreCase(((Player) event.getEntity()).getName())) {
-    			exists = true;
-    		}
-    	}
-    	if (exists == false) {
+    	if (this.plugin.getGameManager().getIngamePlayers().size() == 0) {
     		event.setCancelled(true);
     		return;
     	}

@@ -21,6 +21,7 @@ public class EventLeave implements Listener {
 
 
         Player p = e.getPlayer();
+        p.setExp(0);
 
         plugin.getGameManager().unregisterPlayer(p);
 

@@ -113,6 +113,9 @@ public class GameManager {
 		if(msg != "" && msg != null) {
 			pl.broadcast(msg);
 		}
+		for (Player p : Bukkit.getOnlinePlayers()) {
+			p.setExp(0);
+		}
 		cancel = true;
 		cancelMsg = msg;
 		countdownStarted = false;
