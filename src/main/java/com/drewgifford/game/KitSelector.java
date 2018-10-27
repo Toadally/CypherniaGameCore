@@ -23,32 +23,21 @@ public class KitSelector {
         int inventorySize = toNineDenom(kits.size());
         if(inventorySize > 54){ inventorySize = 54; };
 
-
         Inventory inv = Bukkit.createInventory(null, inventorySize, cmg.color("&8&l&nKit Selector"));
-
         int index = 0;
         for(Kit kit : kits){
-
             ItemStack is = kit.getBuiltIcon();
             Kit selectedKit = Kit.getSelectedKit(p);
             if(selectedKit != null){
                 if(is.isSimilar(selectedKit.getBuiltIcon())){
-
                     is = ItemUtils.addGlow(is);
-
-
                 }
             }
-
             inv.setItem(index, is);
-            
             index++;
-
         }
         p.closeInventory();
         p.openInventory(inv);
-
-
     }
     protected static int toNineDenom(int from)
     {
