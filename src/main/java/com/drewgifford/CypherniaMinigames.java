@@ -1,22 +1,5 @@
 package com.drewgifford;
 
-import com.drewgifford.PlayerData.PlayerManager;
-import com.drewgifford.event.EventsHandler;
-import com.drewgifford.event.InstantDeathEvent;
-import com.drewgifford.game.Game;
-import com.drewgifford.game.GameManager;
-import com.drewgifford.game.GameScoreboard;
-import com.drewgifford.game.Kit;
-import com.drewgifford.utility.ItemStackSerializer;
-import net.md_5.bungee.api.chat.TextComponent;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scoreboard.Scoreboard;
-
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.sql.Connection;
@@ -27,6 +10,23 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 import java.util.logging.Logger;
+
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scoreboard.Scoreboard;
+
+import com.drewgifford.PlayerData.PlayerManager;
+import com.drewgifford.event.EventsHandler;
+import com.drewgifford.game.Game;
+import com.drewgifford.game.GameManager;
+import com.drewgifford.game.GameScoreboard;
+import com.drewgifford.game.HubSelector;
+import com.drewgifford.game.Kit;
+import com.drewgifford.utility.ItemStackSerializer;
 
 public class CypherniaMinigames extends JavaPlugin {
 
@@ -44,10 +44,12 @@ public class CypherniaMinigames extends JavaPlugin {
 	public Location spawnLoc;
 	public boolean allowJoins = true;
 	public ItemStack kitSelector;
+	public ItemStack hubSelector;
 	public boolean ingame = false;
 	private GameManager gm = new GameManager(this);
 	private GameScoreboard gs;
 	private Scoreboard scoreboard;
+	public HubSelector bed;
 
 	private List<Kit> kits = new ArrayList<Kit>();
 
@@ -67,6 +69,10 @@ public class CypherniaMinigames extends JavaPlugin {
 
 	public ItemStack getKitSelector() {
 		return kitSelector;
+	}
+	
+	public ItemStack getHubSelector() {
+		return hubSelector;
 	}
 
 	public GameManager getGameManager(){
@@ -153,6 +159,7 @@ public class CypherniaMinigames extends JavaPlugin {
 		this.password = getConfig().getString("mysql.password");
 
 		this.kitSelector = ItemStackSerializer.deserialize(getConfig().getString("items.kitselector"));
+		this.hubSelector = ItemStackSerializer.deserialize(getConfig().getString("items.hub"));
 
 		this.spawnLoc = new Location(Bukkit.getWorld(getConfig().getString("spawnLocation.world")), getConfig().getDouble("spawnLocation.x"), getConfig().getDouble("spawnLocation.y"), getConfig().getDouble("spawnLocation.z"));
 

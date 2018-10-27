@@ -166,7 +166,6 @@ public class GameManager {
 
 				if(lobbyCountdown == 0){
 					pl.getScoreboardManager().reset();
-					pl.getScoreboardManager().addScore("Have fun!");
 					for(Player p : Bukkit.getOnlinePlayers()){
 						setIngame(p, true);
 						p.setLevel(0);

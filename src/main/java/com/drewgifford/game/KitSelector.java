@@ -4,13 +4,12 @@ import com.drewgifford.CypherniaMinigames;
 import com.drewgifford.utility.ItemUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Listener;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
 
-public class KitSelector implements Listener {
+public class KitSelector {
 
     CypherniaMinigames pl;
     public KitSelector(CypherniaMinigames pl){
