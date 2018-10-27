@@ -2,20 +2,18 @@ package com.drewgifford.game;
 
 import com.drewgifford.CypherniaMinigames;
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Game {
 
-
     private String name;
     private String description;
     public String version;
     CypherniaMinigames cm;
-    private List<String> killMessages = new ArrayList<String>();
-    private List<String> deathMessages = new ArrayList<String>();
+    public List<String> killMessages = new ArrayList<String>();
+    public List<String> deathMessages = new ArrayList<String>();
 
     private boolean playerCountOnDeath = false;
     private boolean singleLife = false;
@@ -72,10 +70,6 @@ public class Game {
     //Start the game
     public void startGame(){
 
-    }
-
-    private void finishGame(Player winner){
-        cm.getGameManager().finishGame(winner);
     }
 
     //Run Postgame Events

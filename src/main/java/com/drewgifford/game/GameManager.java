@@ -204,7 +204,6 @@ public class GameManager {
 			}
 
 		}
-		pl.ingame = true;
 
 	}
 

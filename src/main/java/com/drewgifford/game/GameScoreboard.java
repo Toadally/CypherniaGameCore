@@ -12,7 +12,7 @@ public class GameScoreboard {
 
     private Sidebar sidebar;
     private CypherniaMinigames pl;
-    private String gamename;
+    public String gamename;
 
     HashMap<String, SidebarString> scores = new HashMap<String, SidebarString>();
 

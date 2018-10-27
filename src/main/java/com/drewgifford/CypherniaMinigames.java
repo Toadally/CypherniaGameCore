@@ -45,11 +45,21 @@ public class CypherniaMinigames extends JavaPlugin {
 	public boolean allowJoins = true;
 	public ItemStack kitSelector;
 	public ItemStack hubSelector;
-	public boolean ingame = false;
 	private GameManager gm = new GameManager(this);
 	private GameScoreboard gs;
 	private Scoreboard scoreboard;
 	public HubSelector bed;
+
+	//OPTIONS PER GAME
+	public boolean kitsEnabled = false;
+	public int playersNeeded = 2;
+	public Game registeredGame;
+	public List<String> killMessages = new ArrayList<String>();
+	public List<String> deathMessages = new ArrayList<String>();
+	public String coinGainMsg = "";
+
+
+	public String gameId = "";
 
 	private List<Kit> kits = new ArrayList<Kit>();
 
@@ -70,7 +80,7 @@ public class CypherniaMinigames extends JavaPlugin {
 	public ItemStack getKitSelector() {
 		return kitSelector;
 	}
-	
+
 	public ItemStack getHubSelector() {
 		return hubSelector;
 	}
@@ -81,17 +91,6 @@ public class CypherniaMinigames extends JavaPlugin {
 	public GameScoreboard getScoreboardManager(){
 		return gs;
 	}
-
-	//OPTIONS PER GAME
-	public boolean kitsEnabled = false;
-	public int playersNeeded = 2;
-	public Game registeredGame;
-	public List<String> killMessages = new ArrayList<String>();
-	public List<String> deathMessages = new ArrayList<String>();
-	public String coinGainMsg = "";
-
-
-	public String gameId = "";
 
 	public void onEnable(){
 		log.info("Cyphernia Game Core enabled.");
@@ -128,9 +127,9 @@ public class CypherniaMinigames extends JavaPlugin {
 	}
 
 	public void reloadMinigame(Game game) {
+		this.playermanager = new HashMap<UUID, PlayerManager>();
 		this.registeredGame = game;
 		allowJoins = false;
-		ingame = false;
 		if (getGameManager().canceledFireworks == false) {
 			getGameManager().fireworksRunnable.cancel();
 		}

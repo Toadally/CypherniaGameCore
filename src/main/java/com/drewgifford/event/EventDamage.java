@@ -18,7 +18,8 @@ public class EventDamage implements Listener {
         this.plugin = plugin;
     }
 
-    @EventHandler
+    @SuppressWarnings("deprecation")
+	@EventHandler
 	public void onDamage(EntityDamageEvent event) {
     	
 		if (event.getEntity() instanceof Player) {
