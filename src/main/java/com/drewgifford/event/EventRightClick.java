@@ -1,8 +1,8 @@
 package com.drewgifford.event;
 
 import com.drewgifford.CypherniaMinigames;
-import com.drewgifford.game.HubSelector;
 import com.drewgifford.game.KitSelector;
+
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -23,12 +23,10 @@ public class EventRightClick implements Listener {
 	public void onRightClick(PlayerInteractEvent e){
 		Player p = e.getPlayer();
 		if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK){
-			if (plugin.getGameManager().ingamePlayers.size() == 0) {
-				if (p.getItemInHand().isSimilar(plugin.getKitSelector())){
-					KitSelector.openSelector(plugin, p);
-				} else if (p.getItemInHand().isSimilar(plugin.getHubSelector()) && plugin.getConfig().getBoolean("bungeecord.useBungee")) {
-					HubSelector.movePlayerToLobby(p);
-				}
+			if (p.getItemInHand().isSimilar(plugin.getKitSelector())){
+				KitSelector.openSelector(plugin, p);
+			} else if (p.getItemInHand().isSimilar(plugin.getHubSelector()) && plugin.getConfig().getBoolean("bungeecord.useBungee")) {
+				plugin.connectToBungeeServer(p, plugin.getConfig().getString("bungeecord.fallback-server"));
 			}
 		}
 

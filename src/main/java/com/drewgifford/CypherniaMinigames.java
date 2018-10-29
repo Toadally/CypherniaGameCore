@@ -24,7 +24,6 @@ import com.drewgifford.event.EventsHandler;
 import com.drewgifford.game.Game;
 import com.drewgifford.game.GameManager;
 import com.drewgifford.game.GameScoreboard;
-import com.drewgifford.game.HubSelector;
 import com.drewgifford.game.Kit;
 import com.drewgifford.utility.ItemStackSerializer;
 
@@ -48,7 +47,6 @@ public class CypherniaMinigames extends JavaPlugin {
 	private GameManager gm = new GameManager(this);
 	private GameScoreboard gs;
 	private Scoreboard scoreboard;
-	public HubSelector bed;
 	public List<UUID> playersQuit = new ArrayList<UUID>();
 
 	//OPTIONS PER GAME

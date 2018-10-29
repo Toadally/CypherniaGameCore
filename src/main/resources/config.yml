@@ -31,7 +31,7 @@ spawnLocation:
 
 items:
    kitselector: nether_star 1 0 name:&bKit_Selector protection:1
-   hub: bed 1 0 name:&cLobby protection:1
+   hub: bed 1 0 name:&cLobby
 
 mysql:
   host: localhost
