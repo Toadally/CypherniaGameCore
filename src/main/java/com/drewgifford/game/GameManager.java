@@ -119,6 +119,7 @@ public class GameManager {
 		cancel = true;
 		cancelMsg = msg;
 		countdownStarted = false;
+		lobbyCountdown = pl.getConfig().getInt("countdown");
 		pl.getScoreboardManager().reset();
 		pl.getScoreboardManager().addScore("&cWaiting for players...");
 	}
