@@ -1,7 +1,8 @@
 package com.drewgifford.event;
 
-import com.drewgifford.CypherniaMinigames;
 import org.bukkit.plugin.PluginManager;
+
+import com.drewgifford.CypherniaMinigames;
 
 public class EventsHandler {
 
@@ -16,5 +17,6 @@ public class EventsHandler {
         pm.registerEvents(new EventHunger(plugin), plugin);
         pm.registerEvents(new EventSelectKit(plugin), plugin);
         pm.registerEvents(new EventPickupItem(plugin), plugin);
+        pm.registerEvents(new EventBlockBreak(plugin), plugin);
     }
 }
