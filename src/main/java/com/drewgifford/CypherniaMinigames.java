@@ -48,6 +48,7 @@ public class CypherniaMinigames extends JavaPlugin {
 	private GameScoreboard gs;
 	private Scoreboard scoreboard;
 	public List<UUID> playersQuit = new ArrayList<UUID>();
+	public EventsHandler handler;
 
 	//OPTIONS PER GAME
 	public boolean kitsEnabled = false;
@@ -116,7 +117,7 @@ public class CypherniaMinigames extends JavaPlugin {
 
 		this.registeredGame = game;
 
-		new EventsHandler(this);
+		this.handler = new EventsHandler(this);
 		log.info("Successfully registered minigame "+game.getName()+".");
 		allowJoins = false;
 		registeredGame.runPreEvents();
