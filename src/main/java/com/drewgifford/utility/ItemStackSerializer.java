@@ -84,11 +84,13 @@ public class ItemStackSerializer {
         item.addUnsafeEnchantments(enchants);
         return item.getType().equals(Material.AIR) ? null : item;
     }
-    private static String getOwner(ItemStack item){
+    @SuppressWarnings("deprecation")
+	private static String getOwner(ItemStack item){
         if(!(item.getItemMeta() instanceof SkullMeta)) return null;
         return ((SkullMeta)item.getItemMeta()).getOwner();
     }
-    private static void setOwner(ItemStack item, String owner){
+    @SuppressWarnings("deprecation")
+	private static void setOwner(ItemStack item, String owner){
         try{
             SkullMeta meta = (SkullMeta) item.getItemMeta();
             meta.setOwner(owner);

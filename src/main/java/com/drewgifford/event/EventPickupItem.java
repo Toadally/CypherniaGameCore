@@ -6,6 +6,7 @@ import org.bukkit.event.player.PlayerPickupItemEvent;
 
 import com.drewgifford.CypherniaMinigames;
 
+@SuppressWarnings("deprecation")
 public class EventPickupItem implements Listener {
 	
 	private CypherniaMinigames cm;

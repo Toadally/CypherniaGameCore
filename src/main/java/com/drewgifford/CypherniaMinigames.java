@@ -27,6 +27,9 @@ import com.drewgifford.game.GameScoreboard;
 import com.drewgifford.game.Kit;
 import com.drewgifford.utility.ItemStackSerializer;
 
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
+
 public class CypherniaMinigames extends JavaPlugin {
 
 	Logger log = Bukkit.getLogger();
@@ -206,10 +209,8 @@ public class CypherniaMinigames extends JavaPlugin {
 	}
 
 	public void sendActionbar(Player p, String message) {
-		net.minecraft.server.v1_8_R3.IChatBaseComponent icbc = net.minecraft.server.v1_8_R3.IChatBaseComponent.ChatSerializer.a("{\"text\": \"" +
-				ChatColor.translateAlternateColorCodes('&', message) + "\"}");
-		net.minecraft.server.v1_8_R3.PacketPlayOutChat bar = new net.minecraft.server.v1_8_R3.PacketPlayOutChat(icbc, (byte)2);
-		((org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer)p).getHandle().playerConnection.sendPacket(bar);
+		p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(message));
+
 	}
 
 	public boolean connectToBungeeServer(Player player, String server) {

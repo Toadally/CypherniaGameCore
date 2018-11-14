@@ -160,7 +160,7 @@ public class GameManager {
 
 				if(lobbyCountdown == 20 || lobbyCountdown == 10 || lobbyCountdown < 6 && lobbyCountdown > 0){
 					for(Player p : Bukkit.getOnlinePlayers()){
-						p.playSound(p.getLocation(), Sound.CLICK, 1f, 2f);
+						p.playSound(p.getLocation(), Sound.BLOCK_METAL_PRESSUREPLATE_CLICK_ON, 1f, 2f);
 						p.sendMessage(pl.color(pl.countdownMsg.replaceAll("%time%", ""+lobbyCountdown)));
 					}
 				}
@@ -171,7 +171,7 @@ public class GameManager {
 						setIngame(p, true);
 						p.setLevel(0);
 						p.setFireTicks(0);
-						p.playSound(p.getLocation(), Sound.CLICK, 1f, 2f);
+						p.playSound(p.getLocation(), Sound.BLOCK_METAL_PRESSUREPLATE_CLICK_ON, 1f, 2f);
 						p.sendMessage(ChatColor.YELLOW + "GO!");
 					}
 					startGame(pl.registeredGame);

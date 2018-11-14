@@ -19,6 +19,7 @@ public class EventRightClick implements Listener {
 		this.plugin = plugin;
 	}
 
+	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onRightClick(PlayerInteractEvent e){
 		Player p = e.getPlayer();
