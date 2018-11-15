@@ -10,7 +10,7 @@ public class EventBlockBreak implements Listener {
 	
 	@EventHandler
 	public void onBlockBreak(BlockBreakEvent event) {
-		if (CypherniaMinigames.getInstance().getGameManager().getIngamePlayers().size() == 0) {
+		if (CypherniaMinigames.getInstance().getGameManager().isInGame(event.getPlayer()) == false) {
 			event.setCancelled(true);
 		}
 	}

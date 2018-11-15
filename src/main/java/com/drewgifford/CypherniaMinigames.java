@@ -19,7 +19,7 @@ import com.drewgifford.game.Kit;
 
 public class CypherniaMinigames extends JavaPlugin {
 
-	public HashMap<UUID, PlayerManager> playermanager = new HashMap<UUID, PlayerManager>();
+	public HashMap<UUID, PlayerManager> players = new HashMap<UUID, PlayerManager>();
 	public boolean allowJoins = true;
 	private GameManager gm = new GameManager();
 	private GameScoreboard gs;
@@ -80,7 +80,7 @@ public class CypherniaMinigames extends JavaPlugin {
 	}
 
 	public void reloadMinigame(Game game) {
-		this.playermanager = new HashMap<UUID, PlayerManager>();
+		this.players = new HashMap<UUID, PlayerManager>();
 		this.registeredGame = game;
 		allowJoins = false;
 		if (getGameManager().canceledFireworks == false) {

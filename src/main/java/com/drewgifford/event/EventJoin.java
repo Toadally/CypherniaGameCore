@@ -22,7 +22,7 @@ public class EventJoin implements Listener {
 
 		Player p = e.getPlayer();
 
-		if(CypherniaMinigames.getInstance().getGameManager().getIngamePlayers().size() == 0){
+		if(CypherniaMinigames.getInstance().getGameManager().getInGamePlayers() != 0) {
 			e.setJoinMessage(Config.color("&a&l+ &f"+p.getName()));
 			CypherniaMinigames.getInstance().getGameManager().lobbyCheck(Bukkit.getServer().getOnlinePlayers().size());
 		} else {
@@ -33,7 +33,7 @@ public class EventJoin implements Listener {
 				new BukkitRunnable() {
 					@Override
 					public void run() {
-						CypherniaMinigames.getInstance().playermanager.get(e.getPlayer().getUniqueId()).connectToBungeeServer(CypherniaMinigames.getInstance().getConfig().getString("bungeecord.fallback-server"));
+						CypherniaMinigames.getInstance().players.get(e.getPlayer().getUniqueId()).connectToBungeeServer(CypherniaMinigames.getInstance().getConfig().getString("bungeecord.fallback-server"));
 					}
 				}.runTaskLater(CypherniaMinigames.getInstance(), 10L);
 
@@ -52,7 +52,7 @@ public class EventJoin implements Listener {
 				new BukkitRunnable() {
 					@Override
 					public void run() {
-						CypherniaMinigames.getInstance().playermanager.get(e.getPlayer().getUniqueId()).connectToBungeeServer(CypherniaMinigames.getInstance().getConfig().getString("bungeecord.fallback-server"));
+						CypherniaMinigames.getInstance().players.get(e.getPlayer().getUniqueId()).connectToBungeeServer(CypherniaMinigames.getInstance().getConfig().getString("bungeecord.fallback-server"));
 					}
 				}.runTaskLater(CypherniaMinigames.getInstance(), 10L);
 			} else {
@@ -89,8 +89,8 @@ public class EventJoin implements Listener {
 		UUID uuid = p.getUniqueId();
 
 		CypherniaMinigames.getInstance().getScoreboardManager().addPlayer(p);
-		CypherniaMinigames.getInstance().getGameManager().setIngame(p, false);
+		CypherniaMinigames.getInstance().players.get(uuid).setIngame(false);
 
-		CypherniaMinigames.getInstance().playermanager.put(uuid, new PlayerManager(uuid, false, false, CypherniaMinigames.getInstance()));
+		CypherniaMinigames.getInstance().players.put(uuid, new PlayerManager(uuid, false, false, CypherniaMinigames.getInstance()));
 	}
 }

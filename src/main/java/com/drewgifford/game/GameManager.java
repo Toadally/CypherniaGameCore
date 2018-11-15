@@ -1,9 +1,7 @@
 package com.drewgifford.game;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Random;
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -28,7 +26,6 @@ public class GameManager {
 	private String cancelMsg = "";
 	int fireworkCt = 10;
 	public boolean countdownStarted = false;
-	public HashMap<Player, Boolean> ingamePlayers = new HashMap<Player, Boolean>();
 	public boolean canceledFireworks = false;
 	public BukkitRunnable fireworksRunnable;
 
@@ -42,17 +39,19 @@ public class GameManager {
 		this.cancelMsg = "";
 		this.fireworkCt = 10;
 		this.countdownStarted = false;
-		this.ingamePlayers.clear();
+		for (UUID uuid : CypherniaMinigames.getInstance().players.keySet()) {
+			CypherniaMinigames.getInstance().players.get(uuid).setIngame(false);
+		}
 		this.canceledFireworks = false;
 	}
 
 	public void endgameCheck(){
 		int trues = 0;
 		Player winner = null;
-		for(Player p : ingamePlayers.keySet()){
-			if(isInGame(p)) {
+		for(UUID uuid : CypherniaMinigames.getInstance().players.keySet()){
+			if(CypherniaMinigames.getInstance().players.get(uuid).isIngame()) {
 				trues++;
-				winner = p;
+				winner = Bukkit.getPlayer(uuid);
 			}
 		}
 		if(trues == 1){
@@ -61,30 +60,6 @@ public class GameManager {
 			}
 		}
 	}
-
-	public List<Player> getIngamePlayers(){
-		List<Player> igp = new ArrayList<Player>();
-
-		for(Player p : ingamePlayers.keySet()){
-			if(isInGame(p)){
-				igp.add(p);
-			}
-		}
-		return igp;
-	}
-
-
-	public boolean isInGame(Player p){
-		return ingamePlayers.get(p);
-	}
-	public void setIngame(Player p, boolean d){
-		unregisterPlayer(p);
-		ingamePlayers.put(p, d);
-	}
-	public void unregisterPlayer(Player p ){
-		ingamePlayers.remove(p);
-	}
-
 
 	public void lobbyCheck(int playerCount){
 
@@ -99,7 +74,21 @@ public class GameManager {
 		}
 
 	}
+	
+	public boolean isInGame(Player player) {
+		return CypherniaMinigames.getInstance().players.get(player.getUniqueId()).isIngame();
+	}
 
+	public int getInGamePlayers() {
+		int ingamePlayers = 0;
+		for (UUID uuid : CypherniaMinigames.getInstance().players.keySet()) {
+			if (CypherniaMinigames.getInstance().players.get(uuid).isIngame()) {
+				ingamePlayers++;
+			}
+		}
+		return ingamePlayers;
+	}
+	
 	public void cancelCountdown(String msg){
 		if(msg != "" && msg != null) {
 			CypherniaMinigames.getInstance().broadcast(msg);
@@ -152,7 +141,7 @@ public class GameManager {
 				if(lobbyCountdown == 0){
 					CypherniaMinigames.getInstance().getScoreboardManager().reset();
 					for(Player p : Bukkit.getOnlinePlayers()){
-						setIngame(p, true);
+						CypherniaMinigames.getInstance().players.get(p.getUniqueId()).setIngame(true);
 						p.setLevel(0);
 						p.setFireTicks(0);
 						p.playSound(p.getLocation(), Sound.BLOCK_METAL_PRESSUREPLATE_CLICK_ON, 1f, 2f);
@@ -195,7 +184,7 @@ public class GameManager {
 	public void finishGame(final Player winner){
 
 		if (Config.coinGainActive) {
-			CypherniaMinigames.getInstance().playermanager.get(winner.getUniqueId()).addCoins(Config.coinsPerWin);
+			CypherniaMinigames.getInstance().players.get(winner.getUniqueId()).addCoins(Config.coinsPerWin);
 		}
 
 		fireworksRunnable = new BukkitRunnable(){
@@ -207,7 +196,7 @@ public class GameManager {
 
 						if (CypherniaMinigames.getInstance().getConfig().getBoolean("bungeecord.useBungee")) {
 
-							CypherniaMinigames.getInstance().playermanager.get(p.getUniqueId()).connectToBungeeServer(CypherniaMinigames.getInstance().getConfig().getString("bungeecord.fallback-server"));
+							CypherniaMinigames.getInstance().players.get(p.getUniqueId()).connectToBungeeServer(CypherniaMinigames.getInstance().getConfig().getString("bungeecord.fallback-server"));
 						} else {
 							p.kickPlayer("The game server is restarting.");
 						}

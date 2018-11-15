@@ -11,7 +11,7 @@ public class EventPickupItem implements Listener {
 	
 	@EventHandler
 	public void onPickupItem(PlayerPickupItemEvent event) {
-		if (CypherniaMinigames.getInstance().getGameManager().getIngamePlayers().size() == 0) {
+		if (CypherniaMinigames.getInstance().players.get(event.getPlayer().getUniqueId()).isIngame() == false) {
 			event.setCancelled(true);
 		}
 	}

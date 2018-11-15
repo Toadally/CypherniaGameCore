@@ -10,7 +10,7 @@ public class EventHunger implements Listener {
 	
 	@EventHandler
 	public void onHunger(FoodLevelChangeEvent event) {
-    	if (CypherniaMinigames.getInstance().getGameManager().getIngamePlayers().size() == 0) {
+    	if (CypherniaMinigames.getInstance().players.get(event.getEntity().getUniqueId()).isIngame() == false) {
     		event.setCancelled(true);
     		return;
     	}

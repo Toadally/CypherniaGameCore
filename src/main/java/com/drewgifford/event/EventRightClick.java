@@ -19,7 +19,7 @@ public class EventRightClick implements Listener {
 			if (p.getItemInHand().isSimilar(Config.kitSelector)){
 				KitSelector.openSelector(CypherniaMinigames.getInstance(), p);
 			} else if (p.getItemInHand().isSimilar(Config.hubSelector) && CypherniaMinigames.getInstance().getConfig().getBoolean("bungeecord.useBungee")) {
-				CypherniaMinigames.getInstance().playermanager.get(p.getUniqueId()).connectToBungeeServer(CypherniaMinigames.getInstance().getConfig().getString("bungeecord.fallback-server"));
+				CypherniaMinigames.getInstance().players.get(p.getUniqueId()).connectToBungeeServer(CypherniaMinigames.getInstance().getConfig().getString("bungeecord.fallback-server"));
 			}
 		}
 

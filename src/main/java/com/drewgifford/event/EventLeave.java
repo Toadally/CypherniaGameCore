@@ -17,17 +17,17 @@ public class EventLeave implements Listener {
 		Player p = e.getPlayer();
 		p.setExp(0);
 
-		CypherniaMinigames.getInstance().getGameManager().unregisterPlayer(p);
+		CypherniaMinigames.getInstance().players.remove(p.getUniqueId());
 		if (!CypherniaMinigames.getInstance().playersQuit.contains(e.getPlayer().getUniqueId())) {
 			e.setQuitMessage(Config.color("&c&l- &f"+p.getName()));
-			if (CypherniaMinigames.getInstance().getGameManager().getIngamePlayers().size() != 0) {
-				CypherniaMinigames.getInstance().broadcast(Config.color(Config.playerCountMsg.replaceAll("%playercount%", "" + CypherniaMinigames.getInstance().getGameManager().getIngamePlayers().size())));
+			if (CypherniaMinigames.getInstance().getGameManager().getInGamePlayers() != 0) {
+				CypherniaMinigames.getInstance().broadcast(Config.color(Config.playerCountMsg.replaceAll("%playercount%", "" + CypherniaMinigames.getInstance().getGameManager().getInGamePlayers())));
 			}
 		} else {
 			e.setQuitMessage("");
 			CypherniaMinigames.getInstance().playersQuit.remove(e.getPlayer().getUniqueId());
 		}
-		if(CypherniaMinigames.getInstance().getGameManager().getIngamePlayers().size() == 0){
+		if(CypherniaMinigames.getInstance().getGameManager().getInGamePlayers() == 0){
 			CypherniaMinigames.getInstance().getGameManager().lobbyCheck(Bukkit.getServer().getOnlinePlayers().size() - 1);
 		}
 	}
