@@ -8,32 +8,28 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import com.drewgifford.Config;
 import com.drewgifford.CypherniaMinigames;
 import com.drewgifford.game.Kit;
 
 public class EventSelectKit implements Listener {
 
-	private CypherniaMinigames cm;
-	public EventSelectKit(CypherniaMinigames cm) {
-		this.cm = cm;
-	}
-
 	@EventHandler
 	public void clickItem(InventoryClickEvent e){
 		try {
 			Inventory i = e.getClickedInventory();
-			if(!i.getName().equalsIgnoreCase(cm.color("&8&l&nKit Selector"))) return;
+			if(!i.getName().equalsIgnoreCase(Config.color("&8&l&nKit Selector"))) return;
 			ItemStack item = e.getCurrentItem();
 			String name = item.getItemMeta().getDisplayName();
 			Player p = (Player) e.getWhoClicked();
-			for(Kit k : cm.getKits()){
+			for(Kit k : CypherniaMinigames.getInstance().getKits()){
 				ItemStack x = k.getBuiltIcon();
 
 				if(name.equalsIgnoreCase(x.getItemMeta().getDisplayName())){
 
 					Kit.setSelectedKit(p, k);
 
-					p.sendMessage(cm.color("&6Selected kit &e"+ ChatColor.stripColor(name)));
+					p.sendMessage(Config.color("&6Selected kit &e"+ ChatColor.stripColor(name)));
 					p.closeInventory();
 				}
 				e.setCancelled(true);

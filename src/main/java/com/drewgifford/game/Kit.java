@@ -1,30 +1,26 @@
 package com.drewgifford.game;
 
-import com.drewgifford.CypherniaMinigames;
+import java.util.HashMap;
+import java.util.List;
+
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.HashMap;
-import java.util.List;
+import com.drewgifford.Config;
 
 public class Kit {
-
-
-
     private String name;
     private Material icon;
     private List<String> lore;
     private ItemStack[] items;
-    private CypherniaMinigames pl;
 
-    public Kit(String name, List<String> lore, Material icon, CypherniaMinigames pl, ItemStack... items){
+    public Kit(String name, List<String> lore, Material icon, ItemStack... items){
         this.name = name;
         this.lore = lore;
         this.icon = icon;
         this.items = items;
-        this.pl =pl;
     }
 
     private static HashMap<Player, Kit> selectedKit = new HashMap<Player, Kit>();
@@ -52,7 +48,7 @@ public class Kit {
         ItemStack builtIcon = new ItemStack(icon, 1);
 
         ItemMeta m = builtIcon.getItemMeta();
-        m.setDisplayName(pl.color("&e"+this.name));
+        m.setDisplayName(Config.color("&e"+this.name));
         m.setLore(this.lore);
         builtIcon.setItemMeta(m);
 

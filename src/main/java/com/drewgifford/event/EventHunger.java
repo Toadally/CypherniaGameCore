@@ -8,14 +8,9 @@ import com.drewgifford.CypherniaMinigames;
 
 public class EventHunger implements Listener {
 	
-	private CypherniaMinigames plugin;
-	public EventHunger(CypherniaMinigames plugin) {
-		this.plugin = plugin;
-	}
-	
 	@EventHandler
 	public void onHunger(FoodLevelChangeEvent event) {
-    	if (this.plugin.getGameManager().getIngamePlayers().size() == 0) {
+    	if (CypherniaMinigames.getInstance().getGameManager().getIngamePlayers().size() == 0) {
     		event.setCancelled(true);
     		return;
     	}

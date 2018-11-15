@@ -9,9 +9,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
-import org.bukkit.GameMode;
+import org.bukkit.Location;
 import org.bukkit.Sound;
-import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
@@ -19,38 +18,32 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import com.drewgifford.Config;
 import com.drewgifford.CypherniaMinigames;
 
 public class GameManager {
 
-	private CypherniaMinigames pl;
 	public int lobbyCountdown;
 	private boolean cancel = false;
 	private String cancelMsg = "";
 	int fireworkCt = 10;
-	public boolean spectatorEnabled = true;
 	public boolean countdownStarted = false;
 	public HashMap<Player, Boolean> ingamePlayers = new HashMap<Player, Boolean>();
 	public boolean canceledFireworks = false;
 	public BukkitRunnable fireworksRunnable;
 
-	public GameManager(CypherniaMinigames pl){
-		this.pl = pl;
-		this.lobbyCountdown = pl.getConfig().getInt("countdown");
+	public GameManager(){
+		this.lobbyCountdown = Integer.valueOf(Config.countdownTime);
 	}
 
 	public void reset() {
-		this.lobbyCountdown = pl.getConfig().getInt("countdown");
+		this.lobbyCountdown = Integer.valueOf(Config.countdownTime);
 		this.cancel = false;
 		this.cancelMsg = "";
 		this.fireworkCt = 10;
 		this.countdownStarted = false;
 		this.ingamePlayers.clear();
 		this.canceledFireworks = false;
-	}
-
-	public void setSpectatorEnabled(boolean b){
-		this.spectatorEnabled = b;
 	}
 
 	public void endgameCheck(){
@@ -78,11 +71,9 @@ public class GameManager {
 			}
 		}
 		return igp;
-
-
 	}
 
-	
+
 	public boolean isInGame(Player p){
 		return ingamePlayers.get(p);
 	}
@@ -98,11 +89,11 @@ public class GameManager {
 	public void lobbyCheck(int playerCount){
 
 		if(countdownStarted){
-			if(playerCount < pl.playersNeeded){
-				cancelCountdown(pl.notEnoughPlayersMsg);
+			if(playerCount < CypherniaMinigames.getInstance().getGame().getMinPlayers()){
+				cancelCountdown(Config.notEnoughPlayersMsg);
 			}
 		} else {
-			if(playerCount >= pl.playersNeeded){
+			if(playerCount >= CypherniaMinigames.getInstance().getGame().getMinPlayers()) {
 				startLobbyCountdown();
 			}
 		}
@@ -111,7 +102,7 @@ public class GameManager {
 
 	public void cancelCountdown(String msg){
 		if(msg != "" && msg != null) {
-			pl.broadcast(msg);
+			CypherniaMinigames.getInstance().broadcast(msg);
 		}
 		for (Player p : Bukkit.getOnlinePlayers()) {
 			p.setExp(0);
@@ -119,14 +110,9 @@ public class GameManager {
 		cancel = true;
 		cancelMsg = msg;
 		countdownStarted = false;
-		lobbyCountdown = pl.getConfig().getInt("countdown");
-		pl.getScoreboardManager().reset();
-		pl.getScoreboardManager().addScore("&cWaiting for players...");
-	}
-
-
-	public void registerKill(Player killer, Player victim){
-
+		lobbyCountdown = CypherniaMinigames.getInstance().getConfig().getInt("countdown");
+		CypherniaMinigames.getInstance().getScoreboardManager().reset();
+		CypherniaMinigames.getInstance().getScoreboardManager().addScore("&cWaiting for CypherniaMinigames.getInstance()ayers...");
 	}
 
 
@@ -134,15 +120,13 @@ public class GameManager {
 		if(countdownStarted) return;
 		countdownStarted = true;
 
-		pl.getScoreboardManager().reset();
+		CypherniaMinigames.getInstance().getScoreboardManager().reset();
 
 		new BukkitRunnable(){
 			@Override
 			public void run(){
-
-
 				if(cancel == true){
-					pl.broadcast(cancelMsg);
+					CypherniaMinigames.getInstance().broadcast(cancelMsg);
 					cancel = false;
 					this.cancel();
 					return;
@@ -153,20 +137,20 @@ public class GameManager {
 
 				}
 				if(lobbyCountdown > 0){
-					pl.getScoreboardManager().removeScore(pl.color("&eGame starting in &f"+(lobbyCountdown+1)));
-					pl.getScoreboardManager().addScore(pl.color("&eGame starting in &f"+lobbyCountdown));
+					CypherniaMinigames.getInstance().getScoreboardManager().removeScore(Config.color("&eGame starting in &f"+(lobbyCountdown+1)));
+					CypherniaMinigames.getInstance().getScoreboardManager().addScore(Config.color("&eGame starting in &f"+lobbyCountdown));
 
 				}
 
 				if(lobbyCountdown == 20 || lobbyCountdown == 10 || lobbyCountdown < 6 && lobbyCountdown > 0){
 					for(Player p : Bukkit.getOnlinePlayers()){
 						p.playSound(p.getLocation(), Sound.BLOCK_METAL_PRESSUREPLATE_CLICK_ON, 1f, 2f);
-						p.sendMessage(pl.color(pl.countdownMsg.replaceAll("%time%", ""+lobbyCountdown)));
+						p.sendMessage(Config.color(Config.countdownMsg.replaceAll("%time%", ""+lobbyCountdown)));
 					}
 				}
 
 				if(lobbyCountdown == 0){
-					pl.getScoreboardManager().reset();
+					CypherniaMinigames.getInstance().getScoreboardManager().reset();
 					for(Player p : Bukkit.getOnlinePlayers()){
 						setIngame(p, true);
 						p.setLevel(0);
@@ -174,7 +158,7 @@ public class GameManager {
 						p.playSound(p.getLocation(), Sound.BLOCK_METAL_PRESSUREPLATE_CLICK_ON, 1f, 2f);
 						p.sendMessage(ChatColor.YELLOW + "GO!");
 					}
-					startGame(pl.registeredGame);
+					startGame(CypherniaMinigames.getInstance().registeredGame);
 
 					this.cancel();
 				}
@@ -184,7 +168,7 @@ public class GameManager {
 			}
 
 
-		}.runTaskTimer(pl, 0l, 20l);
+		}.runTaskTimer(CypherniaMinigames.getInstance(), 0l, 20l);
 
 
 	}
@@ -208,13 +192,11 @@ public class GameManager {
 
 	}
 
-	public void setSpectator(Player p ){
-		p.setAllowFlight(true);
-		p.setFlying(true);
-		p.setGameMode(GameMode.SPECTATOR);
-	}
-
 	public void finishGame(final Player winner){
+
+		if (Config.coinGainActive) {
+			CypherniaMinigames.getInstance().playermanager.get(winner.getUniqueId()).addCoins(Config.coinsPerWin);
+		}
 
 		fireworksRunnable = new BukkitRunnable(){
 			@Override
@@ -223,19 +205,19 @@ public class GameManager {
 				if(fireworkCt == 0){
 					for(Player p : Bukkit.getOnlinePlayers()){
 
-						if (pl.getConfig().getBoolean("bungeecord.useBungee")) {
-							
-							pl.connectToBungeeServer(p, pl.getConfig().getString("bungeecord.fallback-server"));
+						if (CypherniaMinigames.getInstance().getConfig().getBoolean("bungeecord.useBungee")) {
+
+							CypherniaMinigames.getInstance().playermanager.get(p.getUniqueId()).connectToBungeeServer(CypherniaMinigames.getInstance().getConfig().getString("bungeecord.fallback-server"));
 						} else {
 							p.kickPlayer("The game server is restarting.");
 						}
 					};
-					pl.registeredGame.runPostEvents();
+					CypherniaMinigames.getInstance().registeredGame.runPostEvents();
 					canceledFireworks = true;
 					this.cancel();
 				}
 
-				launchFirework(winner);
+				launchFirework(winner.getLocation());
 
 
 
@@ -243,19 +225,14 @@ public class GameManager {
 
 			}
 		};
-		fireworksRunnable.runTaskTimer(pl, 0, 20);
+		fireworksRunnable.runTaskTimer(CypherniaMinigames.getInstance(), 0, 20);
 
 	}
 
-	public void launchFirework(Player p) {
-		//Spawn the Firework, get the FireworkMeta.
-		Firework fw = (Firework) p.getWorld().spawnEntity(p.getLocation(), EntityType.FIREWORK);
+	public void launchFirework(Location loc) {
+		Firework fw = (Firework) loc.getWorld().spawnEntity(loc, EntityType.FIREWORK);
 		FireworkMeta fwm = fw.getFireworkMeta();
-
-		//Our random generator
 		Random r = new Random();
-
-		//Get the type
 		int rt = r.nextInt(4) + 1;
 		FireworkEffect.Type type = FireworkEffect.Type.BALL;
 		if (rt == 1) type = FireworkEffect.Type.BALL;
@@ -263,24 +240,14 @@ public class GameManager {
 		if (rt == 3) type = FireworkEffect.Type.BURST;
 		if (rt == 4) type = FireworkEffect.Type.CREEPER;
 		if (rt == 5) type = FireworkEffect.Type.STAR;
-
-		//Get our random colours
 		int r1i = r.nextInt(17) + 1;
 		int r2i = r.nextInt(17) + 1;
 		Color c1 = getColor(r1i);
 		Color c2 = getColor(r2i);
-
-		//Create our effect with this
 		FireworkEffect effect = FireworkEffect.builder().flicker(r.nextBoolean()).withColor(c1).withFade(c2).with(type).trail(r.nextBoolean()).build();
-
-		//Then apply the effect to the meta
 		fwm.addEffect(effect);
-
-		//Generate some random power and set it
 		int rp = r.nextInt(2) + 1;
 		fwm.setPower(rp);
-
-		//Then apply this to our rocket
 		fw.setFireworkMeta(fwm);
 	}
 
@@ -339,19 +306,6 @@ public class GameManager {
 		}
 
 		return c;
-	}
-
-	public void spreadPlayers(int minDistance, int maxRange){
-		int x = 0;  // Marks the x coord of the centre of your map.
-		int z = 0;  // Marks the y coord of the centre of your map.
-		//int minDistance = 250;  // The minimum distance between players / teams.
-		//int maxRange = 1500;  // The maximum range (applies to x and z coordinates.
-		boolean respectTeams = false;  // Whether players in teams should be teleported to the same location (if applicable).
-		String players = "@a";  // Here you specify a list of player names separated by spaces, or use commandblock specifiers.
-
-		ConsoleCommandSender console = Bukkit.getServer().getConsoleSender();
-		Bukkit.getServer().dispatchCommand(console, String.format("spreadplayers %d %d %d %d %b %s", x, z, minDistance, maxRange, respectTeams, players));
-
 	}
 
 }

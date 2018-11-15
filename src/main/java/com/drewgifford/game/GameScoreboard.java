@@ -1,38 +1,32 @@
 package com.drewgifford.game;
 
-import com.coloredcarrot.api.sidebar.Sidebar;
-import com.coloredcarrot.api.sidebar.SidebarString;
-import com.drewgifford.CypherniaMinigames;
+import java.util.HashMap;
+
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
-import java.util.HashMap;
+import com.coloredcarrot.api.sidebar.Sidebar;
+import com.coloredcarrot.api.sidebar.SidebarString;
+import com.drewgifford.Config;
+import com.drewgifford.CypherniaMinigames;
 
 public class GameScoreboard {
 
     private Sidebar sidebar;
-    private CypherniaMinigames pl;
     public String gamename;
 
     HashMap<String, SidebarString> scores = new HashMap<String, SidebarString>();
 
     public GameScoreboard(CypherniaMinigames pl, String gamename){
-        this.pl = pl;
         this.gamename = gamename;
-
-
         this.sidebar = new Sidebar(gamename, pl, 1);
         sidebar.addEntry(new SidebarString(""));
-
-
-
-
     }
 
     public void addScore(String s){
 
-        SidebarString sbs = new SidebarString(pl.color(s));
-        scores.put(pl.color(s), sbs);
+        SidebarString sbs = new SidebarString(Config.color(s));
+        scores.put(Config.color(s), sbs);
 
         sidebar.addEntry(sbs);
 
@@ -42,7 +36,7 @@ public class GameScoreboard {
         String[] s1 = new String[s.length];
         int x = 0;
         for(String ss : s){
-            s1[x] = pl.color(ss);
+            s1[x] = Config.color(ss);
             x++;
         }
 
@@ -55,12 +49,11 @@ public class GameScoreboard {
     }
     public void removeScore(String s){
 
-        if(scores.get(pl.color(s)) != null){
-            sidebar.removeEntry(scores.get(pl.color(s)));
+        if(scores.get(Config.color(s)) != null){
+            sidebar.removeEntry(scores.get(Config.color(s)));
 
-            scores.remove(pl.color(s));
+            scores.remove(Config.color(s));
         }
-
 
     }
 
@@ -81,10 +74,10 @@ public class GameScoreboard {
         addScore("&f"+p.getName());
     }
     public void setDead(Player p){
-        SidebarString sbs = scores.get(pl.color("&f"+p.getName()));
+        SidebarString sbs = scores.get(Config.color("&f"+p.getName()));
 
-        sbs.addVariation(pl.color("&7"+p.getName()));
-        sbs.removeVariation(pl.color("&f"+p.getName()));
+        sbs.addVariation(Config.color("&7"+p.getName()));
+        sbs.removeVariation(Config.color("&f"+p.getName()));
     }
 
 

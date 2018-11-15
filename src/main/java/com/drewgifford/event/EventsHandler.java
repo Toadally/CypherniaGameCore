@@ -15,26 +15,26 @@ public class EventsHandler {
 	public static EventPickupItem pickupItemEvent;
 	public static EventBlockBreak blockBreakEvent;
 
-	public EventsHandler(CypherniaMinigames plugin){
+	public EventsHandler(){
 
-		joinEvent = new EventJoin(plugin);
-		leaveEvent = new EventLeave(plugin);
-		damageEvent = new EventDamage(plugin);
-		rightClickEvent = new EventRightClick(plugin);
-		hungerEvent = new EventHunger(plugin);
-		selectKitEvent = new EventSelectKit(plugin);
-		pickupItemEvent = new EventPickupItem(plugin);
-		blockBreakEvent = new EventBlockBreak(plugin);
+		joinEvent = new EventJoin();
+		leaveEvent = new EventLeave();
+		damageEvent = new EventDamage();
+		rightClickEvent = new EventRightClick();
+		hungerEvent = new EventHunger();
+		selectKitEvent = new EventSelectKit();
+		pickupItemEvent = new EventPickupItem();
+		blockBreakEvent = new EventBlockBreak();
 
-		PluginManager pm = plugin.getServer().getPluginManager();
+		PluginManager pm = CypherniaMinigames.getInstance().getServer().getPluginManager();
 
-		pm.registerEvents(joinEvent, plugin);
-		pm.registerEvents(leaveEvent, plugin);
-		pm.registerEvents(damageEvent, plugin);
-		pm.registerEvents(rightClickEvent, plugin);
-		pm.registerEvents(hungerEvent, plugin);
-		pm.registerEvents(selectKitEvent, plugin);
-		pm.registerEvents(pickupItemEvent, plugin);
-		pm.registerEvents(blockBreakEvent, plugin);
+		pm.registerEvents(joinEvent, CypherniaMinigames.getInstance());
+		pm.registerEvents(leaveEvent, CypherniaMinigames.getInstance());
+		pm.registerEvents(damageEvent, CypherniaMinigames.getInstance());
+		pm.registerEvents(rightClickEvent, CypherniaMinigames.getInstance());
+		pm.registerEvents(hungerEvent, CypherniaMinigames.getInstance());
+		pm.registerEvents(selectKitEvent, CypherniaMinigames.getInstance());
+		pm.registerEvents(pickupItemEvent, CypherniaMinigames.getInstance());
+		pm.registerEvents(blockBreakEvent, CypherniaMinigames.getInstance());
 	}
 }

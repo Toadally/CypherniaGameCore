@@ -5,7 +5,7 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.entity.EntityDamageEvent;
 
-public class InstantDeathEvent extends Event {
+public class GameDeathEvent extends Event {
 
     private static final HandlerList handlers = new HandlerList();
 
@@ -20,7 +20,7 @@ public class InstantDeathEvent extends Event {
     private EntityDamageEvent e;
 
 
-    public InstantDeathEvent(EntityDamageEvent e){
+    public GameDeathEvent(EntityDamageEvent e){
         this.e = e;
     }
 

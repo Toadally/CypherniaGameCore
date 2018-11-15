@@ -21,21 +21,8 @@ bungeecord:
   useBungee: false
   fallback-server: hub
 
-spawnLocation:
-   x: 0
-   y: 128
-   z: 0
-   yaw: 0;
-   pitch: 0;
-   world: world
-
 items:
    kitselector: nether_star 1 0 name:&bKit_Selector protection:1
    hub: bed 1 0 name:&cLobby
 
-mysql:
-  host: localhost
-  port: 3306
-  database: db
-  username: admin
-  password: admin
+coins: []
