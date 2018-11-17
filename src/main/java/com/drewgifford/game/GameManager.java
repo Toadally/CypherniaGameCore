@@ -31,6 +31,7 @@ public class GameManager {
 
 	public GameManager(){
 		this.lobbyCountdown = Integer.valueOf(Config.countdownTime);
+		Bukkit.getLogger().info(this.lobbyCountdown + " LOBBY COUNTDOWN TIME");
 	}
 
 	public void reset() {

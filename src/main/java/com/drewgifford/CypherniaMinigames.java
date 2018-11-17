@@ -21,7 +21,7 @@ public class CypherniaMinigames extends JavaPlugin {
 
 	public HashMap<UUID, PlayerManager> players = new HashMap<UUID, PlayerManager>();
 	public boolean allowJoins = true;
-	private GameManager gm = new GameManager();
+	private GameManager gm;
 	private GameScoreboard gs;
 	private Scoreboard scoreboard;
 	public List<UUID> playersQuit = new ArrayList<UUID>();
@@ -55,6 +55,8 @@ public class CypherniaMinigames extends JavaPlugin {
 	public void onEnable(){
 		plugin = this;
 		scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
+		Config.parseConfig(this);
+		gm = new GameManager();
 		getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
 	}
 

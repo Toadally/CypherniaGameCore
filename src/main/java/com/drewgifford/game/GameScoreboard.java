@@ -25,7 +25,13 @@ public class GameScoreboard {
 
     public void addScore(String s){
 
-        SidebarString sbs = new SidebarString(Config.color(s));
+    	SidebarString sbs;
+    	if (s.length() > 24) {
+    		sbs = SidebarString.generateScrollingAnimation(s, 18);
+    	} else {
+    		sbs = new SidebarString(Config.color(s));
+    	}
+        
         scores.put(Config.color(s), sbs);
 
         sidebar.addEntry(sbs);
@@ -71,13 +77,13 @@ public class GameScoreboard {
 
     //This section is for setting if players' names will be grayed on the scoreboard when they die. Use these methods for single-death game modes.
     public void setAlive(Player p){
-        addScore("&f"+p.getName());
+        addScore("&7[&aALIVE&7] &r" + p.getName());
     }
     public void setDead(Player p){
-        SidebarString sbs = scores.get(Config.color("&f"+p.getName()));
+        SidebarString sbs = scores.get(Config.color("&f[&aALIVE&f] " + p.getName()));
 
-        sbs.addVariation(Config.color("&7"+p.getName()));
-        sbs.removeVariation(Config.color("&f"+p.getName()));
+        sbs.addVariation(Config.color("&7[&cDEAD&7] " + p.getName()));
+        sbs.removeVariation(Config.color("&f[&aALIVE&f] " + p.getName()));
     }
 
 

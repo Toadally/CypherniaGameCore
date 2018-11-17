@@ -22,9 +22,8 @@ public class EventJoin implements Listener {
 
 		Player p = e.getPlayer();
 
-		if(CypherniaMinigames.getInstance().getGameManager().getInGamePlayers() != 0) {
+		if(CypherniaMinigames.getInstance().getGameManager().getInGamePlayers() == 0) {
 			e.setJoinMessage(Config.color("&a&l+ &f"+p.getName()));
-			CypherniaMinigames.getInstance().getGameManager().lobbyCheck(Bukkit.getServer().getOnlinePlayers().size());
 		} else {
 			if (CypherniaMinigames.getInstance().getConfig().getBoolean("bungeecord.useBungee")) {
 				e.getPlayer().sendMessage("§cThis game has already started!");
@@ -39,7 +38,7 @@ public class EventJoin implements Listener {
 
 			} else {
 				p.kickPlayer("The game has already started.");
-				e.setJoinMessage("The game has already started.");
+				e.setJoinMessage("");
 			}
 			return;
 		}
@@ -89,8 +88,8 @@ public class EventJoin implements Listener {
 		UUID uuid = p.getUniqueId();
 
 		CypherniaMinigames.getInstance().getScoreboardManager().addPlayer(p);
-		CypherniaMinigames.getInstance().players.get(uuid).setIngame(false);
-
 		CypherniaMinigames.getInstance().players.put(uuid, new PlayerManager(uuid, false, false, CypherniaMinigames.getInstance()));
+		CypherniaMinigames.getInstance().players.get(uuid).setIngame(false);
+		CypherniaMinigames.getInstance().getGameManager().lobbyCheck(Bukkit.getServer().getOnlinePlayers().size());
 	}
 }

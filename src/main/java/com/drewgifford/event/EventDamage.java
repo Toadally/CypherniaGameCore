@@ -7,6 +7,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
 
 import com.drewgifford.Config;
 import com.drewgifford.CypherniaMinigames;
@@ -23,21 +24,40 @@ public class EventDamage implements Listener {
 			}
 		}
 
-		Player player = (Player) event.getEntity();
-		if (player.getHealth() - event.getDamage() <= 0) {
-			if (CypherniaMinigames.getInstance().getGame().singleLife() == false) {
-				player.sendMessage("You have died! You are now in spectator mode!");
-				player.setHealth(20.0);
-				player.getInventory().clear();
-				player.updateInventory();
-				player.setGameMode(GameMode.SPECTATOR);
-				player.sendTitle(Config.color("&c&lYou died"), Config.color("&7You are now in spectator mode."));
-				CypherniaMinigames.getInstance().players.get(player.getUniqueId()).setIngame(false);
-				CypherniaMinigames.getInstance().getGameManager().endgameCheck();
-				CypherniaMinigames.getInstance().broadcast(Config.color(Config.playerCountMsg.replaceAll("%playercount%", "" + CypherniaMinigames.getInstance().getGameManager().getInGamePlayers())));
+		if (event.getEntity() instanceof Player) {
+			Player player = (Player) event.getEntity();
+			if (player.getHealth() - event.getDamage() <= 0) {
+				if (CypherniaMinigames.getInstance().getGame().singleLife() == false) {
+					player.sendMessage("You have died! You are now in spectator mode!");
+					player.setHealth(20.0);
+					player.getInventory().clear();
+					player.updateInventory();
+					player.setGameMode(GameMode.SPECTATOR);
+					player.sendTitle(Config.color("&c&lYou died"), Config.color("&7You are now in spectator mode."));
+					CypherniaMinigames.getInstance().players.get(player.getUniqueId()).setIngame(false);
+					CypherniaMinigames.getInstance().getGameManager().endgameCheck();
+					CypherniaMinigames.getInstance().broadcast(Config.color(Config.playerCountMsg.replaceAll("%playercount%", "" + CypherniaMinigames.getInstance().getGameManager().getInGamePlayers())));
+				}
+				GameDeathEvent instantDeathEvent = new GameDeathEvent(event);
+				Bukkit.getServer().getPluginManager().callEvent(instantDeathEvent);
 			}
-			GameDeathEvent instantDeathEvent = new GameDeathEvent(event);
-			Bukkit.getServer().getPluginManager().callEvent(instantDeathEvent);
+		}
+	}
+	
+	@SuppressWarnings("deprecation")
+	@EventHandler
+	public void onDeath(PlayerDeathEvent event) {
+		Player player = event.getEntity();
+		if (CypherniaMinigames.getInstance().getGame().singleLife() == false) {
+			player.sendMessage("You have died! You are now in spectator mode!");
+			player.setHealth(20.0);
+			player.getInventory().clear();
+			player.updateInventory();
+			player.setGameMode(GameMode.SPECTATOR);
+			player.sendTitle(Config.color("&c&lYou died"), Config.color("&7You are now in spectator mode."));
+			CypherniaMinigames.getInstance().players.get(player.getUniqueId()).setIngame(false);
+			CypherniaMinigames.getInstance().getGameManager().endgameCheck();
+			CypherniaMinigames.getInstance().broadcast(Config.color(Config.playerCountMsg.replaceAll("%playercount%", "" + CypherniaMinigames.getInstance().getGameManager().getInGamePlayers())));
 		}
 	}
 

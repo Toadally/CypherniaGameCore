@@ -27,8 +27,10 @@ public class EventLeave implements Listener {
 			e.setQuitMessage("");
 			CypherniaMinigames.getInstance().playersQuit.remove(e.getPlayer().getUniqueId());
 		}
-		if(CypherniaMinigames.getInstance().getGameManager().getInGamePlayers() == 0){
+		if (CypherniaMinigames.getInstance().getGameManager().getInGamePlayers() == 0){
 			CypherniaMinigames.getInstance().getGameManager().lobbyCheck(Bukkit.getServer().getOnlinePlayers().size() - 1);
+		} else {
+			CypherniaMinigames.getInstance().getGameManager().endgameCheck();
 		}
 	}
 }
