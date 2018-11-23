@@ -1,6 +1,7 @@
 package com.drewgifford.game;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -24,18 +25,9 @@ public class GameScoreboard {
     }
 
     public void addScore(String s){
-
-    	SidebarString sbs;
-    	if (s.length() > 24) {
-    		sbs = SidebarString.generateScrollingAnimation(s, 18);
-    	} else {
-    		sbs = new SidebarString(Config.color(s));
-    	}
-        
+    	SidebarString sbs = new SidebarString(Config.color(s));
         scores.put(Config.color(s), sbs);
-
         sidebar.addEntry(sbs);
-
     }
     public void addScoreFrames(String... s){
 
@@ -73,17 +65,29 @@ public class GameScoreboard {
             sidebar.removeEntry(s);
         }
     }
-
+    
+    public Map<Player, Boolean> alive = new HashMap<Player, Boolean>();
 
     //This section is for setting if players' names will be grayed on the scoreboard when they die. Use these methods for single-death game modes.
-    public void setAlive(Player p){
-        addScore("&7[&aALIVE&7] &r" + p.getName());
+    public void setAlive(Player player){
+    	alive.put(player, true);
+    	updateSidebar();
     }
-    public void setDead(Player p){
-        SidebarString sbs = scores.get(Config.color("&f[&aALIVE&f] " + p.getName()));
-
-        sbs.addVariation(Config.color("&7[&cDEAD&7] " + p.getName()));
-        sbs.removeVariation(Config.color("&f[&aALIVE&f] " + p.getName()));
+    public void setDead(Player player) {
+    	alive.remove(player);
+    	updateSidebar();
+    }
+    public void updateSidebar() {
+    	reset();
+    	CypherniaMinigames.getInstance().getGame().onReloadSidebar(this);
+    	for (Player player : alive.keySet()) {
+    		if (alive.get(player)) {
+    			addScore(Config.color("&7[&aALIVE&7] &r" + player.getName()));
+    		} else {
+    			addScore(Config.color("&7[&cDEAD&7] &r" + player.getName()));
+    			
+    		}
+    	}
     }
 
 

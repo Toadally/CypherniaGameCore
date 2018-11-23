@@ -14,6 +14,7 @@ public class EventsHandler {
 	public static EventSelectKit selectKitEvent;
 	public static EventPickupItem pickupItemEvent;
 	public static EventBlockBreak blockBreakEvent;
+	public static EventInventory inventoryEvent;
 
 	public EventsHandler(){
 
@@ -25,6 +26,7 @@ public class EventsHandler {
 		selectKitEvent = new EventSelectKit();
 		pickupItemEvent = new EventPickupItem();
 		blockBreakEvent = new EventBlockBreak();
+		inventoryEvent = new EventInventory();
 
 		PluginManager pm = CypherniaMinigames.getInstance().getServer().getPluginManager();
 
@@ -36,5 +38,6 @@ public class EventsHandler {
 		pm.registerEvents(selectKitEvent, CypherniaMinigames.getInstance());
 		pm.registerEvents(pickupItemEvent, CypherniaMinigames.getInstance());
 		pm.registerEvents(blockBreakEvent, CypherniaMinigames.getInstance());
+		pm.registerEvents(inventoryEvent, CypherniaMinigames.getInstance());
 	}
 }

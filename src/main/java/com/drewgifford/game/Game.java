@@ -12,5 +12,7 @@ public interface Game {
 	public void startGame();
 	public void runPostEvents();
 	public boolean kitsEnabled();
+	public boolean coinGain();
+	public void onReloadSidebar(GameScoreboard scoreboard);
 
 }

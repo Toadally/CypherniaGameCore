@@ -31,7 +31,6 @@ public class GameManager {
 
 	public GameManager(){
 		this.lobbyCountdown = Integer.valueOf(Config.countdownTime);
-		Bukkit.getLogger().info(this.lobbyCountdown + " LOBBY COUNTDOWN TIME");
 	}
 
 	public void reset() {
@@ -102,7 +101,7 @@ public class GameManager {
 		countdownStarted = false;
 		lobbyCountdown = CypherniaMinigames.getInstance().getConfig().getInt("countdown");
 		CypherniaMinigames.getInstance().getScoreboardManager().reset();
-		CypherniaMinigames.getInstance().getScoreboardManager().addScore("&cWaiting for CypherniaMinigames.getInstance()ayers...");
+		CypherniaMinigames.getInstance().getScoreboardManager().addScore("&cWaiting for players...");
 	}
 
 

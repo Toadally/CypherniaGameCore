@@ -18,16 +18,18 @@ public class EventDamage implements Listener {
 	@EventHandler
 	public void onDamage(EntityDamageEvent event) {
 		if (event.getEntity() instanceof Player) {
-			if (CypherniaMinigames.getInstance().players.get(((Player) event.getEntity()).getUniqueId()).isIngame() == false) {
-				event.setCancelled(true);
-				return;
+			if (CypherniaMinigames.getInstance().players.containsKey(((Player) event.getEntity()).getUniqueId())) {
+				if (CypherniaMinigames.getInstance().players.get(((Player) event.getEntity()).getUniqueId()).isIngame() == false) {
+					event.setCancelled(true);
+					return;
+				}
 			}
 		}
 
 		if (event.getEntity() instanceof Player) {
 			Player player = (Player) event.getEntity();
 			if (player.getHealth() - event.getDamage() <= 0) {
-				if (CypherniaMinigames.getInstance().getGame().singleLife() == false) {
+				if (CypherniaMinigames.getInstance().getGame().singleLife()) {
 					player.sendMessage("You have died! You are now in spectator mode!");
 					player.setHealth(20.0);
 					player.getInventory().clear();
@@ -35,6 +37,7 @@ public class EventDamage implements Listener {
 					player.setGameMode(GameMode.SPECTATOR);
 					player.sendTitle(Config.color("&c&lYou died"), Config.color("&7You are now in spectator mode."));
 					CypherniaMinigames.getInstance().players.get(player.getUniqueId()).setIngame(false);
+					CypherniaMinigames.getInstance().players.get(player.getUniqueId()).setDead(true);
 					CypherniaMinigames.getInstance().getGameManager().endgameCheck();
 					CypherniaMinigames.getInstance().broadcast(Config.color(Config.playerCountMsg.replaceAll("%playercount%", "" + CypherniaMinigames.getInstance().getGameManager().getInGamePlayers())));
 				}
@@ -43,12 +46,12 @@ public class EventDamage implements Listener {
 			}
 		}
 	}
-	
+
 	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onDeath(PlayerDeathEvent event) {
 		Player player = event.getEntity();
-		if (CypherniaMinigames.getInstance().getGame().singleLife() == false) {
+		if (CypherniaMinigames.getInstance().getGame().singleLife()) {
 			player.sendMessage("You have died! You are now in spectator mode!");
 			player.setHealth(20.0);
 			player.getInventory().clear();
@@ -56,6 +59,7 @@ public class EventDamage implements Listener {
 			player.setGameMode(GameMode.SPECTATOR);
 			player.sendTitle(Config.color("&c&lYou died"), Config.color("&7You are now in spectator mode."));
 			CypherniaMinigames.getInstance().players.get(player.getUniqueId()).setIngame(false);
+			CypherniaMinigames.getInstance().players.get(player.getUniqueId()).setDead(true);
 			CypherniaMinigames.getInstance().getGameManager().endgameCheck();
 			CypherniaMinigames.getInstance().broadcast(Config.color(Config.playerCountMsg.replaceAll("%playercount%", "" + CypherniaMinigames.getInstance().getGameManager().getInGamePlayers())));
 		}
