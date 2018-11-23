@@ -47,7 +47,7 @@ public class ItemStackSerializer {
             args = str.split(":");
             if(Material.matchMaterial(args[0]) != null && item.getType() == Material.AIR){
                 item.setType(Material.matchMaterial(args[0]));
-                if(args.length == 2) item.setDurability(Short.parseShort(args[1]));
+                if(args.length == 2) item.setDurability(Short.parseShort(args[0]));
                 break;
             }
         }
