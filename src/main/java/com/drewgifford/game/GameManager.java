@@ -74,7 +74,7 @@ public class GameManager {
 		}
 
 	}
-	
+
 	public boolean isInGame(Player player) {
 		return CypherniaMinigames.getInstance().players.get(player.getUniqueId()).isIngame();
 	}
@@ -88,7 +88,7 @@ public class GameManager {
 		}
 		return ingamePlayers;
 	}
-	
+
 	public void cancelCountdown(String msg){
 		if(msg != "" && msg != null) {
 			CypherniaMinigames.getInstance().broadcast(msg);
@@ -163,22 +163,23 @@ public class GameManager {
 	}
 
 	public void startGame(Game game){
-		game.startGame();
-		for(Player p : Bukkit.getOnlinePlayers()){
-			p.getInventory().clear();
-			p.updateInventory();
-			if(Kit.getSelectedKit(p) != null){
-				Kit k = Kit.getSelectedKit(p);
-				for(ItemStack i : k.getItems()){
-
-					p.getInventory().addItem(i);
-
-				}
+		if (game.kitsEnabled()) {
+			for(Player p : Bukkit.getOnlinePlayers()){
+				p.getInventory().clear();
 				p.updateInventory();
+				if(Kit.getSelectedKit(p) != null){
+					Kit k = Kit.getSelectedKit(p);
+					for(ItemStack i : k.getItems()){
+
+						p.getInventory().addItem(i);
+
+					}
+					p.updateInventory();
+				}
+
 			}
-
 		}
-
+		game.startGame();
 	}
 
 	public void finishGame(final Player winner){
