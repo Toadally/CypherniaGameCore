@@ -16,6 +16,8 @@ import com.drewgifford.game.Game;
 import com.drewgifford.game.GameManager;
 import com.drewgifford.game.GameScoreboard;
 import com.drewgifford.game.Kit;
+import com.google.common.io.ByteArrayDataOutput;
+import com.google.common.io.ByteStreams;
 
 public class CypherniaMinigames extends JavaPlugin {
 
@@ -75,6 +77,14 @@ public class CypherniaMinigames extends JavaPlugin {
 		gs.reset();
 		gs.addScore(Config.color("&cWaiting for players..."));
 
+	}
+	
+
+	public static void sendPluginMessage(Player p, String data, String channel) {
+		ByteArrayDataOutput out = ByteStreams.newDataOutput();
+		out.writeUTF(channel);
+		out.writeUTF(data);
+		p.sendPluginMessage(plugin, "BungeeCord", out.toByteArray());
 	}
 	
 	public static CypherniaMinigames getInstance() {

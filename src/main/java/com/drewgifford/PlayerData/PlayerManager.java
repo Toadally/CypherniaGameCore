@@ -19,8 +19,6 @@ public class PlayerManager {
 	private boolean ingame;
 	private boolean isdead;
 
-	private int coins = 0;
-
 	private CypherniaMinigames plugin;
 
 	public PlayerManager(UUID uuid, boolean ingame, boolean isdead, CypherniaMinigames plugin){
@@ -28,7 +26,6 @@ public class PlayerManager {
 		this.setIngame(ingame);
 		this.setDead(isdead);
 		this.plugin = plugin;
-		this.updateCoins();
 	}
 
 	public UUID getUuid(){
@@ -53,11 +50,7 @@ public class PlayerManager {
 
 	public void addCoins(int coins) {
 		Bukkit.getPlayer(this.uuid).sendMessage(Config.coinGainMsg.replaceAll("%coins%", "" + coins));
-		this.coins += coins;
-		this.updateCoins();
-	}
-	private void updateCoins() {
-		this.plugin.getConfig().set("coins." + this.uuid.toString(), this.coins);
+		CypherniaMinigames.sendPluginMessage(Bukkit.getPlayer(this.uuid), coins + "", "PlayerCoins");
 	}
 
 	public void sendActionbar(Player p, String message) {
